@@ -56,10 +56,17 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+        ],
+        's3Log' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID','your-key'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY','your-secret'),
+            'region' => env('AWS_REGION','your-region'),
+            'bucket' => env('S3_LOG_BUCKET','comrec-log-backup'),
         ],
 
     ],
