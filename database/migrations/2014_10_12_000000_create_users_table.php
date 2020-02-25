@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->string('username')->unique();
+            $table->boolean('has_reset_password')->default(false);
             $table->string('bvs_id')->unique();
             $table->string('settings');
             $table->string('password');

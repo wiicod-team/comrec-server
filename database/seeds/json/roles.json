@@ -1,0 +1,187 @@
+[
+  {
+    "display_name" : "Super Administrator",
+    "description" : "Super Administrator",
+    "name" : "super.administrator",
+    "permissions":[
+      "add.receipt",
+      "edit.receipt",
+      "delete.receipt",
+      "consult.receipt",
+
+      "add.customer",
+      "edit.customer",
+      "delete.customer",
+      "consult.customer",
+
+      "add.bill",
+      "edit.bill",
+      "delete.bill",
+      "consult.bill",
+
+      "add.town",
+      "edit.town",
+      "delete.town",
+      "consult.town",
+
+      "add.user",
+      "edit.user",
+      "delete.user",
+      "consult.user",
+
+      "add.role",
+      "edit.role",
+      "delete.role",
+      "consult.role",
+
+      "add.permission",
+      "edit.permission",
+      "delete.permission",
+      "consult.permission",
+
+      "valid.ticket",
+
+      "consult.stat",
+
+      "add.cash.ticket"
+    ]
+  },
+  {
+    "display_name" : "Administrator",
+    "description" : "tous les rôles des fonctions du menu Administration",
+    "name" : "administrator",
+    "permissions":[
+      "add.receipt",
+      "edit.receipt",
+      "delete.receipt",
+      "consult.receipt",
+
+      "add.customer",
+      "edit.customer",
+      "delete.customer",
+      "consult.customer",
+
+      "add.bill",
+      "edit.bill",
+      "delete.bill",
+      "consult.bill",
+
+      "add.town",
+      "edit.town",
+      "delete.town",
+      "consult.town",
+
+      "add.user",
+      "edit.user",
+      "delete.user",
+      "consult.user",
+
+      "add.role",
+      "edit.role",
+      "delete.role",
+      "consult.role",
+
+      "add.permission",
+      "edit.permission",
+      "delete.permission",
+      "consult.permission"
+    ]
+  },
+  {
+    "display_name" : "User Admin",
+    "description" : "Can manage users",
+    "name" : "admin.user",
+    "permissions":[
+      "add.user",
+      "edit.user",
+      "delete.user",
+      "consult.user"
+    ]
+  },
+  {
+    "display_name" : "Role Admin",
+    "description" : "Can manage roles",
+    "name" : "admin.role",
+    "permissions":[
+      "add.role",
+      "edit.role",
+      "delete.role",
+      "consult.role"
+    ]
+  },
+  {
+    "display_name" : "Permission Admin",
+    "description" : "Can manage permissions",
+    "name" : "admin.permission",
+    "permissions":[
+      "add.permission",
+      "edit.permission",
+      "delete.permission",
+      "consult.permission"
+    ]
+  },
+  {
+    "display_name" : "Consolidator",
+    "description" : "group for all consolidator",
+    "name" : "consoilidator",
+    "permissions":[
+      "consult.receipt",
+
+      "consult.stat",
+
+      "add.cash.receipt"
+    ]
+  },
+
+  {
+    "display_name" : "Customer Admin",
+    "description" : "can manage customer and relevants",
+    "name" : "customer.admin",
+    "permissions":[
+      "consult.receipt",
+
+      "consult.customer",
+
+      "consult.bill",
+
+      "consult.town",
+
+      "consult.stat"
+    ]
+  },
+  {
+    "display_name" : "Travel Admin",
+    "description" : "can manage travel and relevants",
+    "name" : "travel.admin",
+    "permissions":[
+    ]
+  },
+  {
+    "display_name" : "Container Admin",
+    "description" : "can manage container requests and relevants",
+    "name" : "container.admin",
+    "permissions":[
+    ]
+  },
+  {
+    "display_name" : "Gift Admin",
+    "description" : "can manage gift registries and relevants",
+    "name" : "gift.admin",
+    "permissions":[
+    ]
+  },
+  {
+    "display_name" : "Vehicule Admin",
+    "description" : "can manage vehicule parts and relevants",
+    "name" : "vehicule.admin",
+    "permissions":[
+    ]
+  },
+  {
+    "display_name" : "Trip Admin",
+    "description" : "can manage trip ,destinations and relevants",
+    "name" : "trip.admin",
+    "permissions":[
+    ]
+  }
+]

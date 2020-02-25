@@ -2,13 +2,13 @@
 
 namespace App\Api\V1\Controllers\Auth;
 
-use App\Device;
+
 use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
-use App\Verification;
+
 use Auth;
-use Browser;
+
 use Carbon\Carbon;
 use function Functional\true;
 use Hash;
@@ -61,28 +61,18 @@ class AuthController extends Controller
      */
     public function signin(Request $request){
 
-        $credentials = $request->only('login', 'password');
+        $credentials = $request->only('username', 'password');
         $email=isset($credentials["login"])?$credentials["login"]:null;
         if($email==null)
-            return response()->json(['error' => 'missing login'], 403);
-        $validator = Validator::make(['email'=>$email], ['email'=>'email']);
-        if($validator->fails()){
-            $user= User::where("phone","=",$email)->first();
-        }else{
-            $user = User::where('email', '=', $email)->first();
-        }
+            return response()->json(['error' => 'missing username'], 403);
+
+        $user= User::where("username","=",$email)->first();
+
 
 
         if(!isset($user))
             return response()->error(trans('auth.failed'), 401);
 
-        /* if (isset($user->email_verified) && $user->email_verified == 0) {
-             return response()->error('Email Unverified');
-         }*/
-
-
-        $credentials['email'] = $user->email;
-        unset($credentials['login']);
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->error(trans('auth.failed'), 401);
@@ -125,14 +115,12 @@ class AuthController extends Controller
     {
 
         $rule = [
-            'email'      => 'required|email|unique:users,email',
+            'username'      => 'required|unique:users,username',
+            'bvs_id'      => 'required|unique:users,bvs_id',
             'password'   => 'required|min:5|confirmed',
             'settings' => 'array',
-            'device_tokens' => 'array'
+            'name' => 'max:255'
         ];
-        if($request->phone){
-            $rule['phone'] = 'min:9|max:255|unique:users,phone';
-        }
 
 
         $validator = Validator::make($request->all(), $rule);
@@ -143,11 +131,10 @@ class AuthController extends Controller
         }else{
             $verificationCode = Str::random(40);
             $user = new User();
-            $user->phone = $request->phone;
-            $user->email = trim(strtolower($request->email));
+            $user->username = $request->username;
+            $user->name = $request->name;
+            $user->bvs_id = $request->bvs_id;
             $user->settings = isset($request->settings) ? $request->settings : [];
-            $user->alternative_phone = isset($request->alternative_phone) ? $request->alternative_phone : null;
-            $user->device_tokens = isset($request->device_tokens) ? $request->device_tokens : [];
             $user->password = $request->password;
             $user->save();
 
@@ -162,9 +149,10 @@ class AuthController extends Controller
     public function updateMe(Request $request){
         $rule = [
         ];
+        $user = Auth::user();
 
         if( $request->email !=null ){
-            $rule['email'] = 'required|email|unique:users,email';
+            $rule['username'] = 'required|unique:users,username,'.$user->id;
         }
         $validator = Validator::make($request->all(), $rule);
 
@@ -203,171 +191,8 @@ class AuthController extends Controller
     }
 
 
-    /**
-     * @group Auth
-     * @bodyParam email string required email of the user
-     * @bodyParam google_oauth_id string id of google authentication
-     * @bodyParam invite_by int id of the user who invite this user
-     */
-    public function oauth_login(Request $request){
-        $rule = [
-            'first_name'       => 'min:3|max:255',
-            'last_name'       => 'min:3|max:255',
-            'email'      => 'required|email',
-            'google_oauth_id'   => 'required|min:3|max:255',
-        ];
-        $isRegister= false;
-        if($request->phone){
-            $rule['phone'] = 'min:9|max:255';
-        }
 
 
-        $validator = Validator::make($request->all(), $rule);
-
-        if($validator->fails()){
-            return Response::json(['errors'=>$validator->errors()], 422);
-
-        }else{
-            $user = User::where("email","=",$request->email)->first();
-            if(!$user){
-                $isRegister=true;
-                $validator = Validator::make($request->all(), ['phone'=>'required']);
-                if($validator->fails()){
-                    return Response::json(['is_register'=>true,'errors'=>$validator->errors()], 422);
-                }
-
-                $user = new User();
-//                $user->first_name = trim($request->first_name);
-//                $user->last_name = trim($request->last_name);
-                $user->phone = $request->phone;
-                $user->phone = $request->phone;
-                $user->email = trim(strtolower($request->email));
-                $user->settings = [];
-                $user->email_activated = true;
-                $user->password = '';
-                $user->save();
-
-            }
-
-            if($user->google_oauth_id){
-                if($user->google_oauth_id!=$request->google_oauth_id)
-                    return response()->error(trans('auth.failed'), 401);
-            }else{
-                $user->google_oauth_id=$request->google_oauth_id;
-                $user->save();
-            }
-
-            /*if($request->provider_name=='google'){
-                if($user->google_oauth_id){
-                    if($user->google_oauth_id!=$request->oauth_id)
-                        return response()->error(trans('auth.failed'), 401);
-                }else{
-                    $user->google_oauth_id=$request->oauth_id;
-                    $user->save();
-                }
-            }else if($request->provider_name=='facebook'){
-                if($user->facebook_oauth_id){
-                    if($user->facebook_oauth_id!=$request->oauth_id)
-                        return response()->error(trans('auth.failed'), 401);
-                }else{
-                    $user->facebook_oauth_id=$request->oauth_id;
-                    $user->save();
-                }
-
-            }else{
-                return response()->error(trans('auth.failed'), 401);
-            }*/
-            $user = User::find($user->id);
-
-
-
-            $token = JWTAuth::fromUser($user);
-
-           /* $abilities = $this->getRolesAbilities();
-            $userRole = [];
-
-            foreach ($user->roles as $role) {
-                $userRole [] = $role->name;
-            }*/
-
-            return response()->success(compact('user', 'token','isRegister'));
-        }
-
-
-    }
-
-
-    
-
-    /**
-     * Send verification code to user phone number.
-     *
-     * @param Instance Request instance
-     *
-     * @return JsonResponse user details and auth credentials
-     */
-    public function sendPhoneVerificationCode(Request $request){
-
-        $rule = [
-            'phone_number'      => 'required|min:9|max:255'
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if($validator->fails()){
-            return response()->error($validator->errors(), 422);
-
-        }else{
-
-            $user = User::where('phone_number', '=' ,$request->phone_number)
-                ->firstOrFail();
-            if (!$user->email) {
-                $verify = Verification::generate_secure_code("phone_number");
-                $verify->author_id = $user->id;
-                $verify->save();
-                $verify->send_code($user->phone_number);
-
-                return response()->success(trans('auth.code_sent'));
-            }else{
-                return response()->error('The user has already been registered', 422);
-            }
-        }
-    }
-
-
-    /**
-     * Send verification code to user phone number.
-     *
-     * @param Instance Request instance
-     *
-     * @return JsonResponse user details and auth credentials
-     */
-    public function verifyCode(Request $request){
-
-        $rule = [
-            'code'      => 'required|min:6|max:12'
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if($validator->fails()){
-            return response()->error($validator->errors(), 422);
-
-        }else{
-            $verify = Verification::where('code', '=' ,$request->code)->where('status', '!=', 'done')->first();
-            if($verify){
-                $verify->status = "done";
-                $verify->save();
-                $user = User::where('id', '=' ,$verify->author_id)->firstOrFail();
-                $this->save_device($user);
-                $token = JWTAuth::fromUser($user);
-                return response()->json(compact('user', 'token'));
-            }
-            else {
-                return response()->error(trans('auth.code_invalid'), 422);
-            }
-        }
-    }
 
 
     public function putMe(Request $request)
@@ -377,18 +202,15 @@ class AuthController extends Controller
             return response('User not found', 401);
 
         $rule = [
-            'first_name'       => 'min:3|max:255',
-            'last_name'       => 'min:3|max:255',
-            'device_tokens'       => 'array',
-            'email'      => 'required|email|unique:users,email,'.$user->id,
-            'password'   => 'min:5|confirmed',
+            'name'       => 'min:3|max:255',
+            'has_reset_password'=>'boolean',
+            'username'      => 'required|username|unique:users,username,'.$user->id,
+            'password'   => 'min:6|confirmed',
             'settings' => 'array'
         ];
-        if($request->phone_number!=null){
-            $rule['phone_number'] = 'min:9|max:255|unique:users,phone_number,'.$user->id;
-        }
+
         if($request->password){
-            $rule['current_password'] = 'required|min:5';
+            $rule['current_password'] = 'required|min:6';
         }
 
         $validator = Validator::make($request->all(), $rule);
@@ -397,11 +219,11 @@ class AuthController extends Controller
             return response()->error($validator->errors(), 422);
         }
 
-        if($request->first_name) $user->first_name = trim($request->first_name);
-        if($request->last_name) $user->last_name = trim($request->last_name);
-        if($request->phone_number) $user->phone_number = $request->phone_number;
-        if($request->device_tokens) $user->device_tokens = $request->device_tokens;
-        $user->email = trim(strtolower($request->email));
+        if($request->name) $user->name = trim($request->name);
+        if($request->has_reset_password) $user->name = $request->has_reset_password;
+        if($request->username) $user->username = trim($request->username);
+        if($request->bvs_id) $user->bvs_id = $request->bvs_id;
+        if($request->settings) $user->settings = $request->settings;
 
 
 

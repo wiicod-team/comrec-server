@@ -45,6 +45,7 @@ class UserRequest extends FormRequest
         $rules = [
             'username'=>'required|min:0|max:255|unique:users,username',
             'name'=>'min:0|max:255',
+            'has_reset_password'=>'boolean',
             'remenber_token'=>'min:0|max:100',
             'password'=>'required|min:6|max:255',
             'bvs_id'=>'min:0|max:255|unique:users,bvs_id',

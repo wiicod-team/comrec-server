@@ -1,0 +1,127 @@
+[
+  {
+    "display_name" : "Add Receipt",
+    "name" : "add.container_request",
+    "description" : "Add Receipt"
+  },
+  {
+    "display_name" : "Edit Receipt",
+    "name" : "edit.container_request",
+    "description" : "Edit Receipt"
+  },
+  {
+    "display_name" : "Delete Receipt",
+    "name" : "delete.container_request",
+    "description" : "Delete Receipt"
+  },
+  {
+    "display_name" : "Consult Receipt",
+    "name" : "consult.container_request",
+    "description" : "Consult Receipt"
+  },
+
+  {
+    "display_name" : "Add Customer",
+    "name" : "add.travel",
+    "description" : "Add Customer"
+  },
+  {
+    "display_name" : "Edit Customer",
+    "name" : "edit.travel",
+    "description" : "Edit Customer"
+  },
+  {
+    "display_name" : "Delete Customer",
+    "name" : "delete.travel",
+    "description" : "Delete Customer"
+  },
+  {
+    "display_name" : "Consult Customer",
+    "name" : "consult.travel",
+    "description" : "Consult Customer"
+  },
+
+  {
+    "display_name" : "Add Bill",
+    "name" : "add.destination",
+    "description" : "Add Bill"
+  },
+  {
+    "display_name" : "Edit Bill",
+    "name" : "edit.destination",
+    "description" : "Edit Bill"
+  },
+  {
+    "display_name" : "Delete Bill",
+    "name" : "delete.destination",
+    "description" : "Delete Bill"
+  },
+  {
+    "display_name" : "Consult Bill",
+    "name" : "consult.destination",
+    "description" : "Consult Bill"
+  },
+
+  {
+    "display_name" : "Add User",
+    "name" : "add.user",
+    "description" : "Add User"
+  },
+  {
+    "display_name" : "Edit User",
+    "name" : "edit.user",
+    "description" : "Edit User"
+  },
+  {
+    "display_name" : "Delete User",
+    "name" : "delete.user",
+    "description" : "Delete User"
+  },
+  {
+    "display_name" : "Consult User",
+    "name" : "consult.user",
+    "description" : "Consult User"
+  },
+
+  {
+    "display_name" : "Add Role",
+    "name" : "add.role",
+    "description" : "Add Role"
+  },
+  {
+    "display_name" : "Edit Role",
+    "name" : "edit.role",
+    "description" : "Edit Role"
+  },
+  {
+    "display_name" : "Delete Role",
+    "name" : "delete.role",
+    "description" : "Delete Role"
+  },
+  {
+    "display_name" : "Consult Role",
+    "name" : "consult.role",
+    "description" : "Consult Role"
+  },
+
+  {
+    "display_name" : "Add Permission",
+    "name" : "add.permission",
+    "description" : "Add Permission"
+  },
+  {
+    "display_name" : "Edit Permission",
+    "name" : "edit.permission",
+    "description" : "Edit Permission"
+  },
+  {
+    "display_name" : "Delete Permission",
+    "name" : "delete.permission",
+    "description" : "Delete Permission"
+  },
+  {
+    "display_name" : "Consult Permission",
+    "name" : "consult.permission",
+    "description" : "Consult Permission"
+  }
+]

@@ -19,7 +19,7 @@ class CreateBillsTable extends Migration
             $table->string('status');
             $table->dateTime('creation_date');
 
-            $table->bigInteger('customer_id')->unsigned()->index()->unique();
+            $table->bigInteger('customer_id')->unsigned()->index();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
             $table->timestamps();
