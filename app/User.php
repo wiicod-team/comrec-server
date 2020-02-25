@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\RestTrait;
 use Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable,RestTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'username','bvs_id', 'password','settings'
     ];
 
     /**
@@ -58,5 +59,22 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getLabelAttribute()
+    {
+        return "$this->username $this->name" ;
+    }
+
+    public function customer_users(){
+        return $this->hasMany(CustomerUser::class);
+    }
+
+    public function customers(){
+        $this->belongsToMany(Customer::class,'customer_users');
+    }
+
+    public function bills(){
+        $this->hasManyThrough(Bill::class,Customer::class);
     }
 }
