@@ -2,6 +2,7 @@
 
 namespace App\Api\V1\Controllers;
 
+use App\Api\V1\Requests\UserRequest;
 use App\Helpers\RestHelper;
 use App\User;
 use Symfony\Component\HttpKernel\Exception\HttpException;

@@ -30,7 +30,7 @@ class Customer extends Model
     }
 
     public function users(){
-        $this->belongsToMany(User::class,'customer_users');
+        return $this->belongsToMany(User::class,'customer_users');
     }
 
 

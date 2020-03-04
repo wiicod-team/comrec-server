@@ -10,7 +10,7 @@ class Bill extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['amount','status','creation_date','customer_id'];
+    protected $fillable = ['amount','status','creation_date','customer_id','bvs_id'];
 
     protected $dates = ['created_at','updated_at','creation_date'];
 

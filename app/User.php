@@ -6,11 +6,12 @@ use App\Traits\RestTrait;
 use Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laratrust\Traits\LaratrustUserTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable,RestTrait;
+    use Notifiable,RestTrait,LaratrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -76,10 +77,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function customers(){
-        $this->belongsToMany(Customer::class,'customer_users');
+       return $this->belongsToMany(Customer::class,'customer_users');
     }
 
     public function bills(){
-        $this->hasManyThrough(Bill::class,Customer::class);
+        return $this->hasManyThrough(Bill::class,Customer::class);
     }
 }

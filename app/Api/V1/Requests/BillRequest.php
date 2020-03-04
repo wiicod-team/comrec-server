@@ -29,15 +29,20 @@ class BillRequest extends FormRequest
     {
         $ign = null;
         if ($this->method() == 'PUT'){
-            $ign =','. $this->route('bills');
+            $ign =','. $this->route('bill');
         }
         $rules = [
             'amount' => 'required|numeric',
             'status' => Rule::in(Bill::$Status),
             'creation_date'=>'required|date',
-            'customer_id'=>'required|integer|exists:customers,id'
+            'customer_id'=>'required|integer|exists:customers,id',
+            'bvs_id'=>'min:0|max:255|unique:bills,bvs_id',
 
         ];
+
+        if($this->method()=='PUT'){
+            $rules['bvs_id'].=','.$this->route('bill');
+        }
 
 
         return RuleHelper::get_rules($this->method(), $rules,[]);

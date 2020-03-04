@@ -27,7 +27,7 @@ class PermissionRequest extends FormRequest
     {
         $ign = null;
         if ($this->method() == 'PUT'){
-            $ign =','. $this->route('permissions');
+            $ign =','. $this->route('permission');
         }
         $rules = [
             'description' => '',

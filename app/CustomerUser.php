@@ -20,10 +20,10 @@ class CustomerUser extends Model
     }
 
     public function customer(){
-        $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function user(){
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

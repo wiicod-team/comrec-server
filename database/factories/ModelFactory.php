@@ -22,5 +22,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'has_reset_password'=>$faker->boolean,
         'password' => 'secret',
         'remember_token' => str_random(10),
+        'settings'=>[]
     ];
 });

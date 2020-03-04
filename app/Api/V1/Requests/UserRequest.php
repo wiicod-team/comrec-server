@@ -53,9 +53,10 @@ class UserRequest extends FormRequest
 
 
         ];
+//        \Log::info("user_id:$this->route('users')");
         if($this->method()=='PUT'){
-            $rules['username'].=','.$this->route('users');
-            $rules['bvs_id'].=','.$this->route('users');
+            $rules['username'].=','.$this->route('user');
+            $rules['bvs_id'].=','.$this->route('user');
         }
         return RuleHelper::get_rules($this->method(),$rules);
     }

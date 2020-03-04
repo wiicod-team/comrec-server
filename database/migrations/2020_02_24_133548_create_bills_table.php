@@ -17,6 +17,7 @@ class CreateBillsTable extends Migration
             $table->bigIncrements('id');
             $table->float('amount');
             $table->string('status');
+            $table->string('bvs_id')->unique();
             $table->dateTime('creation_date');
 
             $table->bigInteger('customer_id')->unsigned()->index();

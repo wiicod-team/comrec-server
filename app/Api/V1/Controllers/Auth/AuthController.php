@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function signin(Request $request){
 
         $credentials = $request->only('username', 'password');
-        $email=isset($credentials["login"])?$credentials["login"]:null;
+        $email=isset($credentials["username"])?$credentials["username"]:null;
         if($email==null)
             return response()->json(['error' => 'missing username'], 403);
 

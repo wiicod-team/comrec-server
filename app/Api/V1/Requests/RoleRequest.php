@@ -27,7 +27,7 @@ class RoleRequest extends FormRequest
     {
         $ign = null;
         if ($this->method() == 'PUT'){
-            $ign =','. $this->route('roles');
+            $ign =','. $this->route('role');
         }
         $rules = [
             'description' => '',
