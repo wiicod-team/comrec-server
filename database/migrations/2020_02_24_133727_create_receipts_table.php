@@ -22,6 +22,9 @@ class CreateReceiptsTable extends Migration
             $table->bigInteger('bill_id')->unsigned()->index()->unique();
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade');
 
+             $table->bigInteger('user_id')->unsigned()->index()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
         });
     }

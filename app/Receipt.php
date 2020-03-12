@@ -10,7 +10,7 @@ class Receipt extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['pdf','amount','note','bill_id'];
+    protected $fillable = ['pdf','amount','note','bill_id','user_id'];
 
     protected $dates = ['created_at','updated_at'];
 
@@ -36,5 +36,9 @@ class Receipt extends Model
 
     public function bill(){
         return $this->belongsTo(Bill::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

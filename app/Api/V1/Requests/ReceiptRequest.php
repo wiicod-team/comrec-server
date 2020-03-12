@@ -35,6 +35,7 @@ class ReceiptRequest extends FormRequest
             'note' => 'required|max:255',
             'pdf'=>'required|file|mimetypes:application/pdf',
             'bill_id'=>'required|integer|exists:bills,id',
+            'user_id'=>'required|integer|exists:users,id',
         ];
         return RuleHelper::get_rules($this->method(),$rules);
     }
