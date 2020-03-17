@@ -15,9 +15,8 @@ class CreateReceiptsTable extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pdf');
             $table->string('amount');
-            $table->string('note');
+            $table->string('note')->nullable();
 
             $table->bigInteger('bill_id')->unsigned()->index()->unique();
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade');

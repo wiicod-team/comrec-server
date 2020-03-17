@@ -10,15 +10,10 @@ class Receipt extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['pdf','amount','note','bill_id','user_id'];
+    protected $fillable = ['amount','note','bill_id','user_id'];
 
     protected $dates = ['created_at','updated_at'];
 
-    public function  __construct(array $attributes = [])
-    {
-        $this->files = ['pdf'];
-        parent::__construct($attributes);
-    }
 
 
     public function getLabel()
@@ -26,13 +21,7 @@ class Receipt extends Model
         return "$this->amount note: $this->note bill: $this->bill->amount" ;
     }
 
-    public function getPdfAttribute($val)
-    {
-        if($val==null){
-            return null;
-        }
-        return env('APP_URL').$val;
-    }
+
 
     public function bill(){
         return $this->belongsTo(Bill::class);

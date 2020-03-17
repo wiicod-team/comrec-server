@@ -85,15 +85,9 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = JWTAuth::fromUser($user);
 
-        /*$abilities = $this->getRolesAbilities();
-        $userRole = [];
+        $roles = $this->getRolesAbilities($user->roles);
 
-        foreach ($user->roles as $role) {
-            $userRole [] = $role->name;
-        }*/
-
-        return response()->success(compact('user', 'token'));
-//        return response()->success(compact('user', 'token','abilities', 'userRole'));
+        return response()->success(compact('user', 'token','roles'));
     }
 
     /**
@@ -140,7 +134,10 @@ class AuthController extends Controller
 
             $token = JWTAuth::fromUser($user);
 
-            return response()->success(compact('user', 'token'));
+            $roles = $this->getRolesAbilities($user->roles);
+
+            return response()->success(compact('user', 'token','roles'));
+
         }
 
 
@@ -268,11 +265,10 @@ class AuthController extends Controller
      *
      * @return array
      */
-    private function getRolesAbilities()
+    private function getRolesAbilities($roles)
     {
-        $abilities = [];
-        $roles = Role::all();
 
+        $abilities=[];
         foreach ($roles as $role) {
             if (!empty($role->name)) {
                 $abilities[$role->name] = [];

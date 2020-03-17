@@ -32,8 +32,7 @@ class ReceiptRequest extends FormRequest
     public function rules(){
         $rules = [
             'amount' => 'required|numeric',
-            'note' => 'required|max:255',
-            'pdf'=>'required|file|mimetypes:application/pdf',
+            'note' => 'max:255',
             'bill_id'=>'required|integer|exists:bills,id',
             'user_id'=>'required|integer|exists:users,id',
         ];
