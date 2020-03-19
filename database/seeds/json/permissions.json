@@ -1,5 +1,10 @@
 [
   {
+    "display_name" : "Manage Authorization",
+    "name" :  "manage.authorization",
+    "description" : "manage Customers, Users, Roles and Permissions"
+  },
+  {
     "display_name" : "Add Receipt",
     "name" : "add.container_request",
     "description" : "Add Receipt"
@@ -22,22 +27,22 @@
 
   {
     "display_name" : "Add Customer",
-    "name" : "add.travel",
+    "name" : "add.customer",
     "description" : "Add Customer"
   },
   {
     "display_name" : "Edit Customer",
-    "name" : "edit.travel",
+    "name" : "edit.customer",
     "description" : "Edit Customer"
   },
   {
     "display_name" : "Delete Customer",
-    "name" : "delete.travel",
+    "name" : "delete.customer",
     "description" : "Delete Customer"
   },
   {
     "display_name" : "Consult Customer",
-    "name" : "consult.travel",
+    "name" : "consult.customer",
     "description" : "Consult Customer"
   },
 

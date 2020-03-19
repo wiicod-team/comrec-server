@@ -4,6 +4,7 @@
     "description" : "Super Administrator",
     "name" : "super.administrator",
     "permissions":[
+      "manage.authorization",
       "add.receipt",
       "edit.receipt",
       "delete.receipt",
@@ -51,6 +52,7 @@
     "description" : "tous les rôles des fonctions du menu Administration",
     "name" : "administrator",
     "permissions":[
+      "manage.authorization",
       "add.receipt",
       "edit.receipt",
       "delete.receipt",

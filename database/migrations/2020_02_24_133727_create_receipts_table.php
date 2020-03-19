@@ -18,7 +18,7 @@ class CreateReceiptsTable extends Migration
             $table->string('amount');
             $table->string('note')->nullable();
 
-            $table->bigInteger('bill_id')->unsigned()->index()->unique();
+            $table->bigInteger('bill_id')->unsigned()->index();
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade');
 
              $table->bigInteger('user_id')->unsigned()->index()->nullable();
