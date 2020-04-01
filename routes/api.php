@@ -40,6 +40,10 @@ $api->version('v1', function (Router $api) {
             'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.'
         ]);
     });
+    $api->get('retrieve-bills', function() {
+        $rep = (new \App\Helpers\BvsApi())->fetch_bills();
+        return response()->json($rep);
+    });
 
 
     $api->group(['namespace' => 'App\Api\V1\Controllers'], function (Router $api) {
