@@ -152,6 +152,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        FoxxMD\LaravelElasticBeanstalkCron\ElasticBeanstalkCronProvider::class,
 
         /*
          * Application Service Providers...

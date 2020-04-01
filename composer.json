@@ -25,6 +25,7 @@
     "arcanedev/log-viewer": "^4.7.2",
     "doctrine/dbal": "^2.9",
     "foxxmd/laravel-elasticbeanstalk-cron": "^0.2.0",
+    "guzzlehttp/guzzle": "^6.3",
     "spatie/laravel-backup": "^5.10.0"
 
   },

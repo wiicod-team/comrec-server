@@ -16,12 +16,13 @@ class CreateCustomerUsersTable extends Migration
         Schema::create('customer_users', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('customer_id')->unsigned()->index()->unique();
+            $table->bigInteger('customer_id')->unsigned()->index();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
-            $table->bigInteger('user_id')->unsigned()->index()->unique();
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->unique(['user_id','customer_id']);
             $table->timestamps();
         });
     }

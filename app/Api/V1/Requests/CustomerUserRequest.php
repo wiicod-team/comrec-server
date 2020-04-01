@@ -30,7 +30,7 @@ class CustomerUserRequest extends FormRequest
      */
     public function rules(){
         $rules = [
-            'customer_id'=>'required|integer|exists:categories,id|unique_with:customer_users,user_id',
+            'customer_id'=>'required|integer|exists:customers,id|unique_with:customer_users,user_id',
             'user_id'=>'required|integer|exists:users,id',
         ];
         return RuleHelper::get_rules($this->method(),$rules);
