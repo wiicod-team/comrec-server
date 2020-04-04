@@ -66,7 +66,7 @@ $api->version('v1', function (Router $api) {
             $api->post('refresh', 'RefreshController@refresh');
         });
 
-        $api->group(['middleware' => 'api'], function (Router $api) {
+        $api->group(['middleware' => ['api','jwt.auth']], function (Router $api) {
 
             $api->group(['prefix' => 'users'], function(Router $api) {
                 $api->get('me', 'UserController@me');
@@ -83,15 +83,30 @@ $api->version('v1', function (Router $api) {
             $api->resource("roles", 'RoleController');
             $api->resource("users", 'UserController');
 
+            $api->get("permission_users", 'PermissionUserController@index');
+            $api->get("permission_users/{role_id}/{user_id}", 'PermissionUserController@show');
+            $api->post("permission_users", 'PermissionUserController@store');
+            $api->delete("permission_users/{role_id}/{user_id}", 'PermissionUserController@destroy');
 
-           /* $api->get('refresh', [
-                'middleware' => 'jwt.refresh',
-                function () {
-                    return response()->json([
-                        'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
-                    ]);
-                }
-            ]);*/
+            $api->get("permision_roles", 'PermissionRoleController@index');
+            $api->get("permision_roles/{role_id}/{user_id}", 'PermissionRoleController@show');
+            $api->post("permision_roles", 'PermissionRoleController@store');
+            $api->delete("permision_roles/{role_id}/{user_id}", 'PermissionRoleController@destroy');
+
+            $api->get("role_users", 'RoleUserController@index');
+            $api->get("role_users/{role_id}/{user_id}", 'RoleUserController@show');
+            $api->post("role_users", 'RoleUserController@store');
+            $api->delete("role_users/{role_id}/{user_id}", 'RoleUserController@destroy');
+
+
+            /* $api->get('refresh', [
+                 'middleware' => 'jwt.refresh',
+                 function () {
+                     return response()->json([
+                         'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
+                     ]);
+                 }
+             ]);*/
         });
     });
 });

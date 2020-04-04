@@ -12,12 +12,16 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use Illuminate\Support\Arr;
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
         'name' => $faker->name,
         'username' => $faker->userName,
+        'status'=>Arr::random(\App\User::$Status),
         'bvs_id'=>$faker->uuid,
         'has_reset_password'=>$faker->boolean,
         'password' => 'secret',

@@ -75,9 +75,9 @@ class BvsApi
     private function proccess_bill($resource)
     {
         //sale network not yet
-        $cn = strtolower($resource['BPINAM']);
+        $cn = isset($resource['BPINAM']) ? strtolower($resource['BPINAM']) :strtolower($resource['SALFCY_REF']['$description']);
         $c = [
-            'name' => $resource['BPINAM'],
+            'name' => $cn,
             'sale_network' => $resource['SALFCY_REF']['$description'],
         ];
         $co = Customer::whereName($cn)->first();
@@ -85,27 +85,32 @@ class BvsApi
             $co = Customer::create($c);
         }
         // username not yet
-        $us = strtolower(explode(" ", $resource['REP_REF']['$description'])[0]);
-        $u = [
-            'name' => $resource['REP_REF']['$description'],
-            'username' => $us,
-            'password' => bcrypt($us),
-            'bvs_id' => $resource['REP'],
-        ];
-        $uo = User::whereBvsId($resource['REP'])->first();
-        if ($uo == null) {
-            $uo = User::create($u);
-        }
-        if (!CustomerUser::where('user_id', $uo->id)->where('customer_id', $co - id)->exists()) {
-            CustomerUser::create([
-                'user_id'=>$uo->id,
-                'customer_id'=>$co->id
-            ]);
+        if(isset( $resource['REP_REF'])){
+            $us = strtolower(explode(" ", $resource['REP_REF']['$description'])[0]);
+            $u = [
+                'name' => $resource['REP_REF']['$description'],
+                'username' => $us,
+                'password' => bcrypt($us),
+                'bvs_id' => $resource['REP'],
+            ];
+            $uo = User::whereBvsId($resource['REP'])->first();
+            if ($uo == null) {
+                $uo = User::create($u);
+            }
+            if (!CustomerUser::where('user_id', $uo->id)->where('customer_id', $co->id)->exists()) {
+                CustomerUser::create([
+                    'user_id'=>$uo->id,
+                    'customer_id'=>$co->id
+                ]);
+            }
         }
 
+
         // ACCDAT but for now INVDAT
+        $a= isset($resource['SOLDE'])?$resource['SOLDE']:$resource['AMTATI'];
         $b = [
-            'amount' => $resource['SOLDE'],
+            'amount' => $a,
+            'status'=>'new',
             'bvs_id' => $resource['NUM'],
             'creation_date' => $resource['INVDAT'],
             'customer_id' => $co->id,

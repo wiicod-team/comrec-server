@@ -85,6 +85,8 @@ class AuthController extends Controller
 
 
         $user = Auth::user();
+        if($user->status=='disable')
+            return response()->json(['error' => 'account disable'], 403);
         $token = JWTAuth::fromUser($user);
 
         $roles = $this->getRolesAbilities($user->roles);
