@@ -88,10 +88,10 @@ $api->version('v1', function (Router $api) {
             $api->post("permission_users", 'PermissionUserController@store');
             $api->delete("permission_users/{role_id}/{user_id}", 'PermissionUserController@destroy');
 
-            $api->get("permision_roles", 'PermissionRoleController@index');
-            $api->get("permision_roles/{role_id}/{user_id}", 'PermissionRoleController@show');
-            $api->post("permision_roles", 'PermissionRoleController@store');
-            $api->delete("permision_roles/{role_id}/{user_id}", 'PermissionRoleController@destroy');
+            $api->get("permission_roles", 'PermissionRoleController@index');
+            $api->get("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@show');
+            $api->post("permission_roles", 'PermissionRoleController@store');
+            $api->delete("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@destroy');
 
             $api->get("role_users", 'RoleUserController@index');
             $api->get("role_users/{role_id}/{user_id}", 'RoleUserController@show');

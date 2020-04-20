@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('backup:log')->daily();
+        $schedule->command('backup:log')->hourly();
         $schedule->command('retrieve:bill')->hourly();
     }
 
