@@ -3,6 +3,7 @@
 		"username" : "root",
 		"bvs_id": 1,
 		"settings":[],
+		"has_reset_password": true,
 		"password":"root123",
 		"roles" : [
 			"super.administrator"
@@ -12,33 +13,27 @@
 		"username" : "admin",
 		"bvs_id": 2,
 		"settings":[],
+		"has_reset_password": true,
 		"password":"admin123",
 		"roles" : [
 			"administrator"
 		]
 	},
 	{
-		"username" : "consolidator",
-		"bvs_id": 3,
-		"settings":[],
-		"password":"consolidator123",
-		"roles" : [
-			"consolidator"
-		]
-	},
-	{
 		"username" : "client",
 		"bvs_id": 4,
 		"settings":[],
+		"has_reset_password": true,
 		"password":"client123",
 		"roles" : [
-			"client"
+
 		]
 	},
 	{
 		"username" : "enterprise",
 		"bvs_id": 5,
 		"settings":[],
+		"has_reset_password": true,
 		"password":"enterprise123",
 		"roles" : [
 			"enterprise"

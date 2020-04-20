@@ -1,34 +1,29 @@
 [
   {
+    "display_name" : "BVS Commercials",
+    "description" : "this user can connect to comrec app",
+    "name" : "commercials",
+    "permissions":[
+    ]
+  },
+  {
     "display_name" : "Super Administrator",
     "description" : "Super Administrator",
     "name" : "super.administrator",
     "permissions":[
-      "manage.authorization",
-      "add.receipt",
-      "edit.receipt",
-      "delete.receipt",
+      "manage.admin",
       "consult.receipt",
-
-      "add.customer",
-      "edit.customer",
-      "delete.customer",
       "consult.customer",
 
-      "add.bill",
-      "edit.bill",
-      "delete.bill",
+      "advance.bill",
+      "cash.bill",
       "consult.bill",
-
-      "add.town",
-      "edit.town",
-      "delete.town",
-      "consult.town",
 
       "add.user",
       "edit.user",
       "delete.user",
       "consult.user",
+      "active.user",
 
       "add.role",
       "edit.role",
@@ -40,11 +35,10 @@
       "delete.permission",
       "consult.permission",
 
-      "valid.ticket",
+      "link.customer",
+      "consult.dashboard",
 
-      "consult.stat",
-
-      "add.cash.ticket"
+      "reset.password"
     ]
   },
   {
@@ -122,18 +116,6 @@
       "consult.permission"
     ]
   },
-  {
-    "display_name" : "Consolidator",
-    "description" : "group for all consolidator",
-    "name" : "consoilidator",
-    "permissions":[
-      "consult.receipt",
-
-      "consult.stat",
-
-      "add.cash.receipt"
-    ]
-  },
 
   {
     "display_name" : "Customer Admin",
@@ -149,41 +131,6 @@
       "consult.town",
 
       "consult.stat"
-    ]
-  },
-  {
-    "display_name" : "Travel Admin",
-    "description" : "can manage travel and relevants",
-    "name" : "travel.admin",
-    "permissions":[
-    ]
-  },
-  {
-    "display_name" : "Container Admin",
-    "description" : "can manage container requests and relevants",
-    "name" : "container.admin",
-    "permissions":[
-    ]
-  },
-  {
-    "display_name" : "Gift Admin",
-    "description" : "can manage gift registries and relevants",
-    "name" : "gift.admin",
-    "permissions":[
-    ]
-  },
-  {
-    "display_name" : "Vehicule Admin",
-    "description" : "can manage vehicule parts and relevants",
-    "name" : "vehicule.admin",
-    "permissions":[
-    ]
-  },
-  {
-    "display_name" : "Trip Admin",
-    "description" : "can manage trip ,destinations and relevants",
-    "name" : "trip.admin",
-    "permissions":[
     ]
   }
 ]

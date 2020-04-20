@@ -19,11 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
 
-        $this->call(CustomersTableSeeder::class);
-        $this->call(BillsTableSeeder::class);
-        $this->call(CustomerUsersTableSeeder::class);
+//        $this->call(CustomersTableSeeder::class);
+//        $this->call(BillsTableSeeder::class);
+//        $this->call(CustomerUsersTableSeeder::class);
 
-        $this->call(ReceiptsTableSeeder::class);
+//        $this->call(ReceiptsTableSeeder::class);
         Model::reguard();
     }
 }
