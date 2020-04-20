@@ -26,7 +26,7 @@ class PermissionRoleRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'permission_id'=>'required|integer|exists:permissions,id'
+            'permission_id'=>'required|integer|exists:permissions,id',
             'role_id'=>'required|integer|exists:roles,id'
 
         ];

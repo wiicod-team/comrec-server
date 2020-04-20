@@ -49,7 +49,7 @@ class PermissionRoleController extends Controller
      * Display the specified role.
      *
      * @param  int $role_id
-     * @param $user_id
+     * @param $permission_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($permission_id, $role_id)
@@ -81,9 +81,19 @@ class PermissionRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($permission_id,$role_id)
     {
-        return RestHelper::destroy(PermissionRole::class,$id);
+        $permission_role = PermissionRole::where('permission_id', $permission_id)
+            ->where('role_id', $role_id)
+            ->first();
+
+        if ($permission_role){
+            $permission_role->delete();
+            return Response::json(["role_user" => $permission_role, "message" => "Object has been deleted"], 200);
+        }
+        else{
+            return Response::json(["message" => "Object not found role_id=". $role_id . " permission_id=" . $permission_id], 404);
+        }
     }
 
 }
