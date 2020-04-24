@@ -2,13 +2,14 @@
 
 namespace App\Api\V1\Requests;
 
-use App\Customer;
+use App\Bill;
+use App\Delivery;
 use App\Helpers\RuleHelper;
 use App\Http\Requests\Request;
 use Dingo\Api\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CustomerRequest extends FormRequest
+class DeliveryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,16 +28,21 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $ign = null;
 
         $rules = [
-            'name' => 'required|max:255',
-            'email' => 'email|max:255',
-            'pending_days' => 'numeric',
-            'sale_network' => 'max:255',
-            'status' => Rule::in(Customer::$Status),
-            'creation_date'=>'required|date',
+            'town' => 'required|max:255',
+            'district' => 'required|max:255',
+            'road' => 'required|max:255',
+            'note' => 'max:255',
+            'status' => Rule::in(Delivery::$Status),
+            'invoice_id'=>'required|integer|exists:invoices,id|unique:deliveries,invoice_id',
 
         ];
+
+        if($this->method()=='PUT'){
+            $rules['invoice_id'].=','.$this->route('delivery');
+        }
 
 
         return RuleHelper::get_rules($this->method(), $rules,[]);

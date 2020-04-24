@@ -2,13 +2,14 @@
 
 namespace App\Api\V1\Requests;
 
-use App\Customer;
+use App\Bill;
 use App\Helpers\RuleHelper;
 use App\Http\Requests\Request;
+use App\Offer;
 use Dingo\Api\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CustomerRequest extends FormRequest
+class OfferRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,16 +28,19 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $ign = null;
 
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'email|max:255',
-            'pending_days' => 'numeric',
-            'sale_network' => 'max:255',
-            'status' => Rule::in(Customer::$Status),
-            'creation_date'=>'required|date',
+            'description' => 'required|max:255',
+            'picture' => 'image',
+            'type' => Rule::in(Offer::$Type),
+            'status' => Rule::in(Offer::$Status),
+            'amount'=>'required|numeric',
+            'category_id'=>'required|integer|exists:categories,id',
 
         ];
+
 
 
         return RuleHelper::get_rules($this->method(), $rules,[]);

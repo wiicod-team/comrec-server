@@ -2,13 +2,14 @@
 
 namespace App\Api\V1\Requests;
 
-use App\Customer;
+use App\Bill;
 use App\Helpers\RuleHelper;
 use App\Http\Requests\Request;
+use App\Invoice;
 use Dingo\Api\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CustomerRequest extends FormRequest
+class InvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,15 +28,16 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
-
+        $ign = null;
+        if ($this->method() == 'PUT'){
+            $ign =','. $this->route('bill');
+        }
         $rules = [
-            'name' => 'required|max:255',
-            'email' => 'email|max:255',
-            'pending_days' => 'numeric',
-            'sale_network' => 'max:255',
-            'status' => Rule::in(Customer::$Status),
-            'creation_date'=>'required|date',
-
+            'amount' => 'required|numeric',
+            'status' => Rule::in(Invoice::$Status),
+            'payment_method'=>'required|max:255',
+            'payment_number'=>'required|max:255',
+            'user_id'=>'required|integer|exists:users,id',
         ];
 
 

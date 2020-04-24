@@ -2,13 +2,14 @@
 
 namespace App\Api\V1\Requests;
 
-use App\Customer;
+use App\Bill;
 use App\Helpers\RuleHelper;
 use App\Http\Requests\Request;
+use App\Suggestion;
 use Dingo\Api\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CustomerRequest extends FormRequest
+class SuggestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,14 +28,13 @@ class CustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $ign = null;
 
         $rules = [
-            'name' => 'required|max:255',
-            'email' => 'email|max:255',
-            'pending_days' => 'numeric',
-            'sale_network' => 'max:255',
-            'status' => Rule::in(Customer::$Status),
-            'creation_date'=>'required|date',
+            'title' => 'required|max:255',
+            'description' => 'required|max:500',
+            'status' => Rule::in(Suggestion::$Status),
+            'user_id'=>'required|integer|exists:users,id',
 
         ];
 

@@ -45,6 +45,9 @@ class UserRequest extends FormRequest
         $rules = [
             'username'=>'required|min:0|max:255|unique:users,username',
             'name'=>'min:0|max:255',
+            'phone'=>'min:9|max:14',
+            'email'=>'email|max:255',
+            'type' => Rule::in(User::$Type),
             'status' => Rule::in(User::$Status),
             'has_reset_password'=>'boolean',
             'remenber_token'=>'min:0|max:100',
