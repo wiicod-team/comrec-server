@@ -74,29 +74,35 @@ $api->version('v1', function (Router $api) {
                 $api->post('set-pin-code', 'Auth\AuthController@setPinCode');
             });
 
+            $api->group(['middleware' => ['role:comrec.user']],function(Router $api){
+                $api->resource("bills", 'BillController');
+                $api->resource("customers", 'CustomerController');
+                $api->resource("customer_users", 'CustomerUserController');
+                $api->resource("receipts", 'ReceiptController');
+                $api->resource("permissions", 'PermissionController');
+                $api->resource("roles", 'RoleController');
+                $api->resource("users", 'UserController',['only'=>['index','show','create','update']]);
 
-            $api->resource("bills", 'BillController');
-            $api->resource("customers", 'CustomerController');
-            $api->resource("customer_users", 'CustomerUserController');
-            $api->resource("receipts", 'ReceiptController');
-            $api->resource("permissions", 'PermissionController');
-            $api->resource("roles", 'RoleController');
-            $api->resource("users", 'UserController');
+            });
+            $api->group(['middleware' => ['role:comrec.user']],function(Router $api){
+                $api->get("permission_users", 'PermissionUserController@index');
+                $api->get("permission_users/{role_id}/{user_id}", 'PermissionUserController@show');
+                $api->post("permission_users", 'PermissionUserController@store');
+                $api->delete("permission_users/{role_id}/{user_id}", 'PermissionUserController@destroy');
 
-            $api->get("permission_users", 'PermissionUserController@index');
-            $api->get("permission_users/{role_id}/{user_id}", 'PermissionUserController@show');
-            $api->post("permission_users", 'PermissionUserController@store');
-            $api->delete("permission_users/{role_id}/{user_id}", 'PermissionUserController@destroy');
+                $api->get("permission_roles", 'PermissionRoleController@index');
+                $api->get("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@show');
+                $api->post("permission_roles", 'PermissionRoleController@store');
+                $api->delete("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@destroy');
 
-            $api->get("permission_roles", 'PermissionRoleController@index');
-            $api->get("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@show');
-            $api->post("permission_roles", 'PermissionRoleController@store');
-            $api->delete("permission_roles/{permission_id}/{role_id}", 'PermissionRoleController@destroy');
+                $api->get("role_users", 'RoleUserController@index');
+                $api->get("role_users/{role_id}/{user_id}", 'RoleUserController@show');
+                $api->post("role_users", 'RoleUserController@store');
+                $api->delete("role_users/{role_id}/{user_id}", 'RoleUserController@destroy');
 
-            $api->get("role_users", 'RoleUserController@index');
-            $api->get("role_users/{role_id}/{user_id}", 'RoleUserController@show');
-            $api->post("role_users", 'RoleUserController@store');
-            $api->delete("role_users/{role_id}/{user_id}", 'RoleUserController@destroy');
+            });
+
+
 
 
             /* $api->get('refresh', [
@@ -107,6 +113,21 @@ $api->version('v1', function (Router $api) {
                      ]);
                  }
              ]);*/
+        });
+
+
+        // routes for bvs shop
+        $api->group(['middleware' => ['api']], function (Router $api) {
+            $api->resource("categories", 'CategoryController');
+            $api->resource("deliveries", 'DeliveryController');
+            $api->resource("invoices", 'InvoiceController');
+            $api->resource("invoice_items", 'InvoiceItemController');
+            $api->resource("offers", 'OfferController');
+            $api->resource("offer_product_units", 'OfferProductUnitController');
+            $api->resource("products", 'ProductController');
+            $api->resource("product_units", 'ProductUnitController');
+            $api->resource("suggestions", 'SuggestionController');
+
         });
     });
 });
