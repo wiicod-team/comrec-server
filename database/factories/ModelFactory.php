@@ -20,6 +20,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
+        'phone'=>$faker->phoneNumber,
+        'email'=>$faker->email,
         'username' => $faker->userName,
         'status'=>Arr::random(\App\User::$Status),
         'bvs_id'=>$faker->uuid,

@@ -11,6 +11,8 @@ $factory->define(Customer::class, function (Faker $faker) {
     return [
         //
         'name'=>$faker->company,
+        'email'=>$faker->email,
+        'pending_days'=>Arr::random([30,45,60]),
         'status'=>Arr::random(Customer::$Status),
         'sale_network'=>$faker->text(20),
     ];
