@@ -6,7 +6,8 @@
 		"has_reset_password": true,
 		"password":"root123",
 		"roles" : [
-			"super.administrator"
+			"super.administrator",
+			"comrec.user"
 		]
 	},
 	{
@@ -16,7 +17,8 @@
 		"has_reset_password": true,
 		"password":"admin123",
 		"roles" : [
-			"administrator"
+			"administrator",
+			"comrec.user"
 		]
 	},
 	{

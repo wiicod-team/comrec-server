@@ -1,8 +1,8 @@
 [
   {
-    "display_name" : "BVS Commercials",
+    "display_name" : "BVS Comrec User",
     "description" : "this user can connect to comrec app",
-    "name" : "commercials",
+    "name" : "comrec.user",
     "permissions":[
     ]
   },
