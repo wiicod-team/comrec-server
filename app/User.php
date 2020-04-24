@@ -19,10 +19,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'username','bvs_id', 'password','settings','has_reset_password','status'
+        'name','email','phone','type', 'username','bvs_id', 'password','settings','has_reset_password','status'
     ];
 
     public static $Status = ['enable', 'disable', 'pending'];
+    public static $Type = ['user', 'enterprise'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -88,5 +89,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function bills(){
         return $this->hasManyThrough(Bill::class,Customer::class);
+    }
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
     }
 }
