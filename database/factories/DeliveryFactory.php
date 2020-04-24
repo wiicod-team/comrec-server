@@ -14,7 +14,7 @@ $factory->define(Delivery::class, function (Faker $faker) {
         //
         'status'=>Arr::random(Delivery::$Status),
         'town'=>Arr::random(['douala','yaounde']),
-        'disctrict'=>$faker->city,
+        'district'=>$faker->city,
         'road'=>$faker->address,
         'note'=>$n,
         'invoice_id'=>$i

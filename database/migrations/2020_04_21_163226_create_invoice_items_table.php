@@ -15,7 +15,7 @@ class CreateInvoiceItemsTable extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('price_was');
+            $table->double('price_was');
             $table->integer('quantity');
 
             $table->morphs('concern');

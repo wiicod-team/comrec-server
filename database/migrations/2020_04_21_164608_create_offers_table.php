@@ -18,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->string('name');
             $table->string('picture');
             $table->string('type');
-            $table->float('amount');
+            $table->double('amount');
             $table->string('status');
             $table->string('description');
 

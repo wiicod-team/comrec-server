@@ -16,7 +16,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('status');
-            $table->float('amount');
+            $table->double('amount');
             $table->string('payment_method');
             $table->string('payment_number');
 

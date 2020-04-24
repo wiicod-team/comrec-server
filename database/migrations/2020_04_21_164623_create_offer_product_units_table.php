@@ -22,6 +22,7 @@ class CreateOfferProductUnitsTable extends Migration
             $table->bigInteger('product_unit_id')->unsigned()->index();
             $table->foreign('product_unit_id')->references('id')->on('product_units')->onDelete('cascade');
 
+            $table->unique(['offer_id','product_unit_id']);
 
             $table->timestamps();
         });

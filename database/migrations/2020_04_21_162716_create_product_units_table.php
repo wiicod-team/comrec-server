@@ -17,7 +17,7 @@ class CreateProductUnitsTable extends Migration
             $table->bigIncrements('id');
             $table->string('unit');
             $table->integer('quantity');
-            $table->float('amount');
+            $table->double('amount');
 
             $table->bigInteger('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

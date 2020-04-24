@@ -15,7 +15,7 @@ class CreateReceiptsTable extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('amount');
+            $table->double('amount');
             $table->string('note')->nullable();
 
             $table->bigInteger('bill_id')->unsigned()->index();

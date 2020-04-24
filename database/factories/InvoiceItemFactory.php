@@ -11,7 +11,7 @@ $factory->define(InvoiceItem::class, function (Faker $faker) {
 
     $cc=Arr::random(InvoiceItem::$Concerns);
     $c = FactoryHelper::getOrCreate($cc)->id;
-    $i = FactoryHelper::getOrCreate(\App\InvoiceItem::class)->id;
+    $i = FactoryHelper::getOrCreate(\App\Invoice::class)->id;
     return [
         //
         'price_was'=>0,
