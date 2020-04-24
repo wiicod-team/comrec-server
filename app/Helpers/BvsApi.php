@@ -90,11 +90,11 @@ class BvsApi
     {
         //
 //        dump($resource);
-        $cn = isset($resource['BPINAM']) ? strtolower($resource['BPINAM']) : strtolower($resource['SALFCY_REF']['$description']);
+        $cn = isset($resource['BPINAM']) ? $resource['BPINAM'] : $resource['SALFCY_REF']['$description'];
         $csn = isset($resource['TSCCOD0_REF']['$description']) ? $resource['TSCCOD0_REF']['$description'] : $resource['SALFCY_REF']['$description'];
         $c = [
-            'name' => $cn,
-            'sale_network' => $csn,
+            'name' => trim($cn),
+            'sale_network' => trim($csn),
         ];
 
         $co = Customer::whereName($cn)->first();
@@ -127,7 +127,7 @@ class BvsApi
 
                 if (isset($body['REPNUM_REF'])) {
                     $u = [
-                        'name' => $n,
+                        'name' => trim($n),
                         'username' => $l,
                         'password' => $l,
                         'bvs_id' => $uid,
@@ -142,11 +142,11 @@ class BvsApi
                     'customer_id' => $co->id
                 ]);
             }
-            $role = Role::whereName('commercials')->first();
+            $role = Role::whereName('comrec.user')->first();
             if ($role == null)
                 $role = Role::create([
-                    'name' => 'commercials',
-                    'display_name' => 'BVS Commercials',
+                    'name' => 'comrec.user',
+                    'display_name' => 'BVS Comrec User',
                     'description' => 'this user can connect to comrec app']);
             if (!RoleUser::whereUserId($uo->id)->whereRoleId($role->id)->exists())
                 RoleUser::create(['user_id'=>$uo->id,'role_id'=>$role->id,'user_type'=>'App\\User']);
@@ -158,7 +158,7 @@ class BvsApi
         $a = isset($resource['SOLDE']) ? $resource['SOLDE'] : $resource['AMTATI'];
         $b = [
             'amount' => $a,
-            'status' => 'new',
+            'status' => 'pending',
             'bvs_id' => $resource['NUM'],
             'creation_date' => $resource['INVDAT'],
             'customer_id' => $co->id,
