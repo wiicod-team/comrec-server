@@ -13,20 +13,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        App\Helpers\FactoryHelper::clear();
+  /*      App\Helpers\FactoryHelper::clear();
         Model::unguard();
         $this->call(PermissionsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);*/
 //
-        $this->call(CustomersTableSeeder::class);
-        $this->call(BillsTableSeeder::class);
-        $this->call(CustomerUsersTableSeeder::class);
+//        $this->call(CustomersTableSeeder::class);
+//        $this->call(BillsTableSeeder::class);
+//        $this->call(CustomerUsersTableSeeder::class);
 //
-        $this->call(ReceiptsTableSeeder::class);
+//        $this->call(ReceiptsTableSeeder::class);
 
         /*=============== bvs shop seeds ===============*/
-        $this->call(CategoriesTableSeeder::class);
+   /*     $this->call(CategoriesTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
         $this->call(ProductUnitsTableSeeder::class);
 
@@ -39,6 +39,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SuggestionsTableSeeder::class);
 
-        Model::reguard();
+        Model::reguard();*/
     }
 }

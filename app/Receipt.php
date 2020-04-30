@@ -10,7 +10,7 @@ class Receipt extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['amount','note','bill_id','user_id'];
+    protected $fillable = ['amount','note','bill_id','user_id','payment_method'];
 
     protected $dates = ['created_at','updated_at'];
 
