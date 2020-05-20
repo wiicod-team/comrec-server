@@ -1,5 +1,10 @@
 [
   {
+    "display_name" : "Comrec User Permission",
+    "name" :  "comrec.permission",
+    "description" : "give right to permissions"
+  },
+  {
     "display_name" : "Manage Authorization",
     "name" :  "manage.authorization",
     "description" : "manage Customers, Users, Roles and Permissions"

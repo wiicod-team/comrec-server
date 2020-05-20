@@ -24,6 +24,12 @@ class UsersTableSeeder extends Seeder
                 $roles = \App\Role::whereIn('name',$roles)->get();
                 /*foreach ($ro as $r){
                     $u->attachRole($r);
+                - option_name : BVS_USERNAME
+    value : admin
+  - option_name : BVS_PASSWORD
+    value : admin
+  - option_name : BVS_URL
+    value : 'http://10.10.200.26:8124/api1/x3/erp/BVSTEST/'
                 }*/
                 $u->attachRoles($roles);
             }

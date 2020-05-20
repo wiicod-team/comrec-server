@@ -128,7 +128,7 @@ class BvsApi
                 if (isset($body['REPNUM_REF'])) {
                     $u = [
                         'name' => trim($n),
-                        'username' => $l,
+                        'username' => trim($l),
                         'password' => $l,
                         'bvs_id' => $uid,
                     ];

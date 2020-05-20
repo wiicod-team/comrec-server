@@ -47,6 +47,7 @@ class RestHelper
 
 //        $appends = Input::has('_appends') ? explode(',', Input::get('_appends')) : $ms->getAppends();
         $fo = Input::has('_includes') ? explode(',', Input::get('_includes')) : $ms->getForeign();
+        $mfo = Input::has('_include_morphs') ? explode(',', Input::get('_includes')) :[];
         $co = Input::has('_counts') ? explode(',', Input::get('_counts')) : [];
         $wantFields = Input::has('_fields') ? explode(',', Input::get('_fields')) : false;
         $withIncluded =Input::get('_includes')== '';

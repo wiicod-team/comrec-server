@@ -4,6 +4,7 @@
     "description" : "this user can connect to comrec app",
     "name" : "comrec.user",
     "permissions":[
+      "comrec.permission"
     ]
   },
   {

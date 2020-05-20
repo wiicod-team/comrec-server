@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Invoice;
 use App\InvoiceItem;
+use App\Receipt;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
         //
         InvoiceItem::created(function (InvoiceItem $bp) {
             $this->update_invoice_amount($bp->invoice);
+        });
+
+         Receipt::saving(function (Receipt $r) {
+             $user = Auth::user();
+           if($r->seller_was!=$user->full_name)
+               $r->seller_was.=$user->full_name;
         });
 
         InvoiceItem::creating(function (InvoiceItem $ii) {

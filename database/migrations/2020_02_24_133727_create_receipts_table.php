@@ -18,6 +18,8 @@ class CreateReceiptsTable extends Migration
             $table->double('amount');
             $table->string('payment_method')->nullable();
             $table->string('note')->nullable();
+            $table->string('seller_was')->nullable();
+            $table->dateTime('received_at')->nullable();
 
             $table->bigInteger('bill_id')->unsigned()->index();
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade');
