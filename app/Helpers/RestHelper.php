@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -47,7 +48,7 @@ class RestHelper
 
 //        $appends = Input::has('_appends') ? explode(',', Input::get('_appends')) : $ms->getAppends();
         $fo = Input::has('_includes') ? explode(',', Input::get('_includes')) : $ms->getForeign();
-        $mfo = Input::has('_include_morphs') ? explode(',', Input::get('_includes')) :[];
+        $mfo = Input::has('_include_morphs') ? explode(',', Input::get('_include_morphs')) :[];
         $co = Input::has('_counts') ? explode(',', Input::get('_counts')) : [];
         $wantFields = Input::has('_fields') ? explode(',', Input::get('_fields')) : false;
         $withIncluded =Input::get('_includes')== '';
@@ -170,6 +171,25 @@ class RestHelper
 //            $ms->setAppends($appends);
             if(!$withIncluded)
                 $ms = $ms->with($fo);
+            if(count($mfo)){
+                $mtab= [];
+                foreach ($mfo as $mo){
+                    $mo = explode(":",$mo);
+                    $mm = explode("|",$mo[1]);
+                    foreach ($mm as $m){
+                        $m = explode(".",$m);
+                        $c = "App\\".ucfirst(Str::camel($m[0]));
+                        array_shift($m);
+                        $m = implode(".",$m);
+                        $mtab[$c]=$m;
+                    }
+                    $ms= $ms->with([$mo[0] => function ($morphTo) use ($mtab) {
+                        $morphTo->morphWith($mtab);
+                    }]);
+                }
+
+
+            }
             if(count($co)>0)
                 $ms = $ms->withCount($co);
             if(is_array($wantFields)){
@@ -375,11 +395,32 @@ class RestHelper
         $name = explode("App\\", $Model)[1];
 //        $appends = Input::has('_appends') ? explode(',', Input::get('_appends')) : $m->getAppends();
         $fo = Input::has('_includes') ? explode(',', Input::get('_includes')) : $m->getForeign();
+        $mfo = Input::has('_include_morphs') ? explode(',', Input::get('_include_morphs')) :[];
 
         try{
 
 //            $m->appends=$appends;
-            $m = $Model::with($fo)->find($id);
+            $m = $Model::with($fo);
+            if(count($mfo)){
+                $mtab= [];
+                foreach ($mfo as $mo){
+                    $mo = explode(":",$mo);
+                    $mm = explode("|",$mo[1]);
+                    foreach ($mm as $mmm){
+                        $mmm = explode(".",$mmm);
+                        $c = "App\\".ucfirst(Str::camel($mmm[0]));
+                        array_shift($mmm);
+                        $mmm = implode(".",$mmm);
+                        $mtab[$c]=$mmm;
+                    }
+                    $m= $m->with([$mo[0] => function ($morphTo) use ($mtab) {
+                        $morphTo->morphWith($mtab);
+                    }]);
+                }
+
+            }
+
+           $m= $m->find($id);
         } catch (BadMethodCallException $e) {
             return Response::json(['error' => 'includes methods does not exists',
                 'reason' => $e->getMessage()

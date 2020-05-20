@@ -34,6 +34,6 @@ class ProductUnit extends Model
     }
 
     public function offers(){
-        return $this->belongsToMany(Offer::class);
+        return $this->belongsToMany(Offer::class,'offer_product_units');
     }
 }

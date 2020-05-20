@@ -114,7 +114,9 @@ class AuthController extends Controller
 
         $rule = [
             'username'      => 'required|unique:users,username',
-            'bvs_id'      => 'required|unique:users,bvs_id',
+            'email'      => 'email|unique:users,email',
+            'phone'      => 'unique:users,phone',
+            'bvs_id'      => 'unique:users,bvs_id',
             'password'   => 'required|min:5|confirmed',
             'settings' => 'array',
             'name' => 'max:255'
@@ -131,6 +133,8 @@ class AuthController extends Controller
             $user = new User();
             $user->username = $request->username;
             $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->bvs_id = $request->bvs_id;
             $user->settings = isset($request->settings) ? $request->settings : [];
             $user->password = $request->password;
@@ -288,6 +292,6 @@ class AuthController extends Controller
 
         return $abilities;
     }
-    
+
 
 }

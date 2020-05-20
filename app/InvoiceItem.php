@@ -18,6 +18,8 @@ class InvoiceItem extends Model
 
 
 
+
+
     public function getLabel()
     {
         return "$this->price_was FCFA" ;
