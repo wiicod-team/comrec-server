@@ -48,7 +48,7 @@ class BackUpLogs extends Command
         if (!App::isLocal()) {
             $localDisk = Storage::disk('log');
             $localFiles = $localDisk->allFiles();
-            $cloudDisk = Storage::disk('s3Log');
+            $cloudDisk = Storage::disk('s3Backup');
             $dat = Carbon::today()->format("Y-m-d");
             $pathPrefix = 'coLogs' . DIRECTORY_SEPARATOR . $dat.DIRECTORY_SEPARATOR;
             foreach ($localFiles as $file) {

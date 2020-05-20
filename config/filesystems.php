@@ -61,12 +61,12 @@ return [
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
-        's3Log' => [
+        's3Backup' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID','your-key'),
             'secret' => env('AWS_SECRET_ACCESS_KEY','your-secret'),
             'region' => env('AWS_REGION','your-region'),
-            'bucket' => env('S3_LOG_BUCKET','comrec-log-backup'),
+            'bucket' => env('S3_BACKUP_BUCKET','bvs-backup-prod'),
         ],
 
     ],
