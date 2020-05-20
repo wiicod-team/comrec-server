@@ -81,7 +81,7 @@ $api->version('v1', function (Router $api) {
                 $api->resource("receipts", 'ReceiptController');
                 $api->resource("permissions", 'PermissionController');
                 $api->resource("roles", 'RoleController');
-                $api->resource("users", 'UserController',['only'=>['index','show','create','update']]);
+                $api->resource("users", 'UserController',['only'=>['index','show','store','update']]);
 
             });
             $api->group(['middleware' => ['role:comrec.user']],function(Router $api){
@@ -116,17 +116,28 @@ $api->version('v1', function (Router $api) {
         });
 
 
-        // routes for bvs shop
-        $api->group(['middleware' => ['api']], function (Router $api) {
-            $api->resource("categories", 'CategoryController');
+        // ====================== routes for bvs shop ====================
+        $api->group(['middleware' => ['api','jwt.auth']], function (Router $api) {
+
             $api->resource("deliveries", 'DeliveryController');
             $api->resource("invoices", 'InvoiceController');
             $api->resource("invoice_items", 'InvoiceItemController');
+
+            $api->post('buy','PaymentController@buy');
+            $api->get('check/{id}','PaymentController@check');
+
+        });
+        $api->group(['middleware' => ['api']], function (Router $api) {
+
+            $api->resource("categories", 'CategoryController');
             $api->resource("offers", 'OfferController');
             $api->resource("offer_product_units", 'OfferProductUnitController');
             $api->resource("products", 'ProductController');
             $api->resource("product_units", 'ProductUnitController');
             $api->resource("suggestions", 'SuggestionController');
+
+            $api->get('callback/{method}','PaymentController@callback');
+            $api->put('callback/{method}','PaymentController@callback');
 
         });
     });

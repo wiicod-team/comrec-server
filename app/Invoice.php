@@ -10,11 +10,17 @@ class Invoice extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['amount','status','total_amount','payment_method','payment_number','user_id'];
+    protected $fillable = ['amount','status','total_amount','payment_id', 'payment_responds','payment_method','payment_number','user_id'];
 
     protected $dates = ['created_at','updated_at'];
 
     public static $Status = ['new', 'pending', 'book', 'cancel'];
+
+    public static $PaymentMethods = ['om','momo','yup'];
+
+    public $casts=[
+        'payment_responds'=>'array'
+    ];
 
     public function getLabel()
     {

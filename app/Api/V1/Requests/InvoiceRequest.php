@@ -35,8 +35,10 @@ class InvoiceRequest extends FormRequest
         $rules = [
             'amount' => 'required|numeric',
             'status' => Rule::in(Invoice::$Status),
-            'payment_method'=>'required|max:255',
+            'payment_method'=>Rule::in(Invoice::$PaymentMethods),
             'payment_number'=>'required|max:255',
+            'payment_id'=>'max:255',
+            'payment_responds'=>'max:255',
             'user_id'=>'required|integer|exists:users,id',
         ];
 

@@ -17,6 +17,8 @@ class CreateInvoicesTable extends Migration
             $table->bigIncrements('id');
             $table->string('status');
             $table->double('amount');
+            $table->string('payment_id')->nullable();
+            $table->string('payment_responds')->nullable();
             $table->string('payment_method');
             $table->string('payment_number');
 

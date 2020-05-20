@@ -13,7 +13,7 @@ $factory->define(Invoice::class, function (Faker $faker) {
         //
         'status'=>Arr::random(Invoice::$Status),
         'amount'=>0,
-        'payment_method'=>Arr::random(['momo','om','yup']),
+        'payment_method'=>Arr::random(Invoice::$PaymentMethods),
         'payment_number'=>$faker->phoneNumber,
         'user_id'=>$u
     ];
