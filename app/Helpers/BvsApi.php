@@ -10,8 +10,11 @@ namespace App\Helpers;
 
 
 use App\Bill;
+use App\Category;
 use App\Customer;
 use App\CustomerUser;
+use App\Product;
+use App\ProductUnit;
 use App\Role;
 use App\RoleUser;
 use App\User;
@@ -27,16 +30,13 @@ class BvsApi
     private $nb = 0;
     private $auth = 0;
     private $bill_url = 'ZFACREC?representation=ZFACREC.$query&orderBy=NUM';
+    private $product_url = 'ZSTKAPP?representation=ZSTKAPP.$query&orderBy=NUM';
     private $user_url = 'ZREAUS("bvs_id")?representation=ZREAUS.$details';
 
     public function __construct()
     {
         $this->base_url = env('BVS_URL');
-        $this->url = $this->base_url . $this->bill_url;
-        $lb = Bill::latest('id')->first();
-        if ($lb) {
-            $this->url = $this->url . '&key=gt.' . $lb->bvs_id;
-        }
+
         $this->auth = env('BVS_USERNAME') . ':' . env('BVS_PASSWORD') . '@';
         $this->client = new Client([
             'auth' => [
@@ -48,6 +48,11 @@ class BvsApi
 
     public function fetch_bills()
     {
+        $this->url = $this->base_url . $this->bill_url;
+        $lb = Bill::latest('id')->first();
+        if ($lb) {
+            $this->url = $this->url . '&key=gt.' . $lb->bvs_id;
+        }
         try {
             do {
                 $url = $this->addAuth($this->url);
@@ -57,7 +62,8 @@ class BvsApi
                 $body = json_decode($response, true);
                 if (isset($body['$resources']))
                     $this->proccess_bills($body['$resources']);
-                $this->url = $body['$links']['$next']['$url'];
+                if(isset($body['$links']['$next']))
+                    $this->url = $body['$links']['$next']['$url'];
 
             } while (isset($body['$links']['$next']));
 
@@ -71,6 +77,35 @@ class BvsApi
         return ['number_fetch' => $this->nb, 'success' => true, 'msg' => "$this->nb invoices fetchs"];
     }
 
+    public function fetch_products()
+    {
+        $this->url = $this->base_url . $this->product_url;
+        $lp = ProductUnit::latest('id')->first();
+        if ($lp) {
+            $this->url = $this->url . '&key=gt.' . $lp->bvs_id;
+        }
+        try {
+            do {
+                $url = $this->addAuth($this->url);
+                $response = file_get_contents($url);
+                $body = json_decode($response, true);
+                if (isset($body['$resources']))
+                    $this->proccess_products($body['$resources']);
+                if(isset($body['$links']['$next']))
+                    $this->url = $body['$links']['$next']['$url'];
+
+            } while (isset($body['$links']['$next']));
+
+            Log::info("$this->nb products fetchs");
+        } catch (Exception $exception) {
+//            dump($exception->getMessage());
+            Log::warning("products fetchs failled error: " . $exception->getMessage());
+            return ['number_fetch' => $this->nb, 'success' => false, 'msg' => "products fetchs failled"];
+        }
+
+        return ['number_fetch' => $this->nb, 'success' => true, 'msg' => "$this->nb products fetchs"];
+    }
+
     private function addAuth($url)
     {
         $nurl = explode('://', $url);
@@ -82,6 +117,14 @@ class BvsApi
     {
         foreach ($resources as $resource) {
             $this->proccess_bill($resource);
+            $this->nb++;
+        }
+    }
+
+    private function proccess_products($resources)
+    {
+        foreach ($resources as $resource) {
+            $this->proccess_product($resource);
             $this->nb++;
         }
     }
@@ -167,6 +210,65 @@ class BvsApi
         if ($bo == null) {
             $bo = Bill::create($b);
         }
+    }
+
+    private function proccess_product($resource)
+    {
+        //
+//        dump($resource);
+
+        $c = [
+            'name' => trim($resource['TEXTE']),
+            'description' => trim($resource['TSICOD_1']),
+        ];
+
+        $co = Category::whereName($c['name'])->first();
+        if ($co == null) {
+            $co = Category::create($c);
+        }
+
+        if (isset($resource['ITMDES']) && !empty(trim($resource['STU']))) {
+
+            $unit = trim($resource['STU']);
+            $pn = trim($resource['ITMDES']);
+            $pos = strrpos($pn, $unit);
+
+            if($pos !== false)
+            {
+                $pn = substr_replace($pn, '', $pos, strlen($unit));
+            }
+            $p = [
+                'name' => $pn,
+//                'description' => trim($resource['TSICOD_1']),
+                'category_id'=>$co->id
+
+            ];
+            $po = Product::whereName($p['name'])->first();
+            if ($po == null) {
+                $po = Product::create($p);
+            }
+
+            $pu = [
+                'unit' => $unit,
+                'quantity'=>intval(trim($resource['SOLDE'])),
+                'bvs_id'=>trim($resource['NUM']),
+                'amount'=>trim($resource['PRI2']),
+                'product_id'=>$po->id
+
+            ];
+
+            $puo = ProductUnit::whereUnit($pu['unit'])->whereProductId($pu['product_id'])->first();
+
+            if($puo == null){
+                $puo= ProductUnit::create($pu);
+            }else{
+                $puo->quantity+=$pu['quantity'];
+                $puo->bvs_id=$pu['bvs_id'];
+                $puo->save();
+            }
+
+        }
+
     }
 
 }

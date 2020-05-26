@@ -83,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function getLabelAttribute()
+    public function getLabel()
     {
         return "$this->username $this->name";
     }
@@ -125,16 +125,22 @@ class User extends Authenticatable implements JWTSubject
         $user = Auth::user();
 
         static::addGlobalScope('roles', function (Builder $builder) use ($user) {
-            if ($user && $user->hasRole('comrec.user')) {
-                $builder->whereHas('roles',function (Builder $query) {
-                    $query->whereName('comrec.user');
-                });
+            if($user){
+                if ( $user->hasRole('comrec.user')) {
+                   /* $builder->whereHas('roles',function (Builder $query) {
+                        $query->whereName('comrec.user');
+                    });*/
+                   $builder->whereNotNull('bvs_id');
 
-            }else{
-                $builder->whereDoesntHave('roles',function (Builder $query) {
-                    $query->whereName('comrec.user');
-                });
+                }else{
+                    /*$builder->whereDoesntHave('roles',function (Builder $query) {
+                        $query->whereName('comrec.user');
+                    });*/
+                    $builder->whereNotNull('bvs_id');
+
+                }
             }
+
         });
     }
 }
