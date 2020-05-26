@@ -13,7 +13,6 @@ $factory->define(Product::class, function (Faker $faker) {
         //
         'name'=>$faker->name,
         'picture'=>$p,
-        'bvs_id'=>$faker->uuid,
         'category_id'=>$c
     ];
 });

@@ -36,13 +36,10 @@ class ProductRequest extends FormRequest
             'name' => 'required|max:255',
             'picture' => 'image',
             'category_id'=>'required|integer|exists:categories,id',
-            'bvs_id'=>'min:0|max:255|unique:bills,bvs_id',
 
         ];
 
-        if($this->method()=='PUT'){
-            $rules['bvs_id'].=','.$this->route('bill');
-        }
+
 
 
         return RuleHelper::get_rules($this->method(), $rules,[]);
