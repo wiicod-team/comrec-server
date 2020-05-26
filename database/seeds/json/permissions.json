@@ -5,11 +5,6 @@
     "description" : "give right to permissions"
   },
   {
-    "display_name" : "Manage Authorization",
-    "name" :  "manage.authorization",
-    "description" : "manage Customers, Users, Roles and Permissions"
-  },
-  {
     "display_name" : "Administrer",
     "name" :  "manage.admin",
     "description" : "Administrer"
@@ -20,11 +15,10 @@
     "description" : "Constuler encaissement"
   },
   {
-    "display_name" : "Consulter clients",
+    "display_name" : "Consulter clients Admin",
     "name" : "consult.customer",
     "description" : "Consulter clients"
   },
-
   {
     "display_name" : "Avancer facture",
     "name" : "advance.bill",
@@ -122,5 +116,30 @@
     "display_name" : "Lier client",
     "name" : "link.customer",
     "description" : "Lier client"
+  },
+  {
+    "display_name" : "Consulter univers client",
+    "name" : "consult.customer-universe",
+    "description" : "Consulter univers client"
+  },
+  {
+    "display_name" : "Lier client",
+    "name" : "link.customer",
+    "description" : "Lier client"
+  },
+  {
+    "display_name" : "Consulter Tous les encaissements",
+    "name" : "consult.receipt-caisse",
+    "description" : "Consulter Tous les encaissements"
+  },
+  {
+    "display_name" : "Annuler Encaissement",
+    "name" : "edit.receipt",
+    "description" : "Consulter Tous les encaissements"
+  },
+  {
+    "display_name" : "Charger facture X3",
+    "name" : "load.bills",
+    "description" : "Charger manuellement les factures depuis X3"
   }
 ]

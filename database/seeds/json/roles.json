@@ -38,8 +38,42 @@
 
       "link.customer",
       "consult.dashboard",
+      "load.bills",
+      "edit.receipt",
+      "consult.receipt-caisse",
+      "consult.customer-universe",
 
       "reset.password"
+    ]
+  },
+  {
+    "display_name" : "Caissier BVS",
+    "description" : "Caissier BVS",
+    "name" : "caisse.bvs",
+    "permissions":[
+      "consult.dashboard",
+      "edit.receipt",
+      "consult.receipt-caisse"
+    ]
+  },
+  {
+    "display_name" : "Managers BVS",
+    "description" : "Managers BVS",
+    "name" : "managers.bvs",
+    "permissions":[
+      "consult.dashboard"
+    ]
+  },
+  {
+    "display_name" : "Vendeurs BVS",
+    "description" : "Vendeurs BVS",
+    "name" : "vendeurs.bvs",
+    "permissions":[
+      "consult.receipt",
+      "advance.bill",
+      "cash.bill",
+      "consult.bill",
+      "consult.customer-universe"
     ]
   },
   {
