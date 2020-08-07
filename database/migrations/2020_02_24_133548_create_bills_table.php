@@ -15,7 +15,7 @@ class CreateBillsTable extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->double('amount');
+            $table->double('amount',15,2);
             $table->string('status')->default('pending');
             $table->string('bvs_id')->unique();
             $table->dateTime('creation_date');

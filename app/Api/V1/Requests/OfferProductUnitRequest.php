@@ -30,7 +30,7 @@ class OfferProductUnitRequest extends FormRequest
         $ign = null;
 
         $rules = [
-            'product_unit_id'=>'required|integer|exists:product_units,id|unique_with:product_unit_users,user_id',
+            'product_unit_id'=>'required|integer|exists:product_units,id|unique_with:offer_product_units,offer_id',
             'offer_id'=>'required|integer|exists:offers,id',
 
         ];

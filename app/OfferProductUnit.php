@@ -16,7 +16,7 @@ class OfferProductUnit extends Model
 
     public function getLabel()
     {
-        return "$this->offer_id offfer: $this->offer->name product: $this->product_unit->product->name $this->product_unit->unit" ;
+        return "$this->offer_id offer: $this->offer->name product: $this->product_unit->product->name $this->product_unit->unit" ;
     }
 
     public function offer(){

@@ -30,7 +30,7 @@ class Product extends Model
     public function getPictureAttribute($val)
     {
         if($val==null){
-            return null;
+            return env('APP_URL').'default/product/picture.png';
         }
         return env('APP_URL').$val;
     }

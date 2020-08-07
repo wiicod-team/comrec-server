@@ -35,8 +35,13 @@ class CustomerRequest extends FormRequest
             'sale_network' => 'max:255',
             'status' => Rule::in(Customer::$Status),
             'creation_date'=>'required|date',
+            'bvs_id'=>'min:0|max:255|unique:customers,bvs_id',
 
         ];
+
+        if($this->method()=='PUT'){
+            $rules['bvs_id'].=','.$this->route('customer');
+        }
 
 
         return RuleHelper::get_rules($this->method(), $rules,[]);

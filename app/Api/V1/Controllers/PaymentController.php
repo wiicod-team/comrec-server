@@ -64,7 +64,11 @@ class PaymentController extends Controller
                 }
             } elseif ($i->payment_method == 'om') {
                 $om = new OmSdk();
-                $res = $om->webPayment(["amount" => $i->amount, "order_id" => env("OM_ORDER_PREFIX") . $i->id]);
+                $res = $om->webPayment([
+                    "amount" => $i->amount,
+                    "currency"=>env("OM_CURRENCY"),
+                    "order_id" => env("OM_ORDER_PREFIX") . $i->id
+                ]);
                 Log::warning("Momo Request ".json_encode($res));
                 $i->status = "pending";
                 $i->payment_id = $res["notif_token"];

@@ -62,7 +62,7 @@ class BvsApi
                 $body = json_decode($response, true);
                 if (isset($body['$resources']))
                     $this->proccess_bills($body['$resources']);
-                if(isset($body['$links']['$next']))
+                if (isset($body['$links']['$next']))
                     $this->url = $body['$links']['$next']['$url'];
 
             } while (isset($body['$links']['$next']));
@@ -91,7 +91,7 @@ class BvsApi
                 $body = json_decode($response, true);
                 if (isset($body['$resources']))
                     $this->proccess_products($body['$resources']);
-                if(isset($body['$links']['$next']))
+                if (isset($body['$links']['$next']))
                     $this->url = $body['$links']['$next']['$url'];
 
             } while (isset($body['$links']['$next']));
@@ -157,10 +157,10 @@ class BvsApi
                 $response = file_get_contents($url);
                 $body = json_decode($response, true);
 //                dump($body);
-                $al=strtolower(explode(" ", $resource['REP_REF']['$description'])[0]);
+                $al = strtolower(explode(" ", $resource['REP_REF']['$description'])[0]);
                 if (isset($body['REPNUM_REF']['$description'])) {
                     $n = $body['REPNUM_REF']['$description'];
-                    $l = empty(trim($body['LOGIN']))?$al:$body['LOGIN'];
+                    $l = empty(trim($body['LOGIN'])) ? $al : $body['LOGIN'];
                     $uid = $body['REPNUM'];
                 } else {
                     $n = $resource['REP_REF']['$description'];
@@ -192,24 +192,28 @@ class BvsApi
                     'display_name' => 'BVS Comrec User',
                     'description' => 'this user can connect to comrec app']);
             if (!RoleUser::whereUserId($uo->id)->whereRoleId($role->id)->exists())
-                RoleUser::create(['user_id'=>$uo->id,'role_id'=>$role->id,'user_type'=>'App\\User']);
+                RoleUser::create(['user_id' => $uo->id, 'role_id' => $role->id, 'user_type' => 'App\\User']);
 
         }
 
 
         // ACCDAT but for now INVDAT
-        $a = isset($resource['SOLDE']) ? $resource['SOLDE'] : $resource['AMTATI'];
-        $b = [
-            'amount' => $a,
-            'status' => 'pending',
-            'bvs_id' => $resource['NUM'],
-            'creation_date' => $resource['INVDAT'],
-            'customer_id' => $co->id,
-        ];
-        $bo = Bill::whereBvsId($resource['NUM'])->first();
-        if ($bo == null) {
-            $bo = Bill::create($b);
+        if (isset($resource['SOLDE'])) {
+//            $a = isset($resource['SOLDE']) ? $resource['SOLDE'] : $resource['AMTATI'];
+            $a = $resource['SOLDE'];
+            $b = [
+                'amount' => $a,
+                'status' => 'pending',
+                'bvs_id' => $resource['NUM'],
+                'creation_date' => $resource['INVDAT'],
+                'customer_id' => $co->id,
+            ];
+            $bo = Bill::whereBvsId($resource['NUM'])->first();
+            if ($bo == null) {
+                $bo = Bill::create($b);
+            }
         }
+
     }
 
     private function proccess_product($resource)
@@ -233,14 +237,13 @@ class BvsApi
             $pn = trim($resource['ITMDES']);
             $pos = strrpos($pn, $unit);
 
-            if($pos !== false)
-            {
+            if ($pos !== false) {
                 $pn = substr_replace($pn, '', $pos, strlen($unit));
             }
             $p = [
                 'name' => $pn,
 //                'description' => trim($resource['TSICOD_1']),
-                'category_id'=>$co->id
+                'category_id' => $co->id
 
             ];
             $po = Product::whereName($p['name'])->first();
@@ -250,20 +253,25 @@ class BvsApi
 
             $pu = [
                 'unit' => $unit,
-                'quantity'=>intval(trim($resource['SOLDE'])),
-                'bvs_id'=>trim($resource['NUM']),
-                'amount'=>trim($resource['PRI2']),
-                'product_id'=>$po->id
+                'quantity' => intval(trim($resource['SOLDE'])),
+                'bvs_id' => trim($resource['NUM']),
+                'amount' => trim($resource['PRI2']),
+                'product_id' => $po->id
 
             ];
 
-            $puo = ProductUnit::whereUnit($pu['unit'])->whereProductId($pu['product_id'])->first();
+//            $puo = ProductUnit::whereBvsId($pu['bvs_id'])->first();
+            $puo = ProductUnit::where(function ($query) use ($pu) {
+                $query->whereUnit($pu['unit'])->whereProductId($pu['product_id']);
+            })->orWhere(function ($query) use ($pu) {
+                $query->where('bvs_id', $pu['bvs_id']);
+            })->first();
 
-            if($puo == null){
-                $puo= ProductUnit::create($pu);
-            }else{
-                $puo->quantity+=$pu['quantity'];
-                $puo->bvs_id=$pu['bvs_id'];
+            if ($puo == null) {
+                $puo = ProductUnit::create($pu);
+            } else {
+                $puo->quantity += $pu['quantity'];
+                $puo->bvs_id = $pu['bvs_id'];
                 $puo->save();
             }
 
