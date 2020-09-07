@@ -123,6 +123,11 @@
     "description" : "Consulter univers client"
   },
   {
+    "display_name" : "Exporter données",
+    "name" : "export.data",
+    "description" : "Exporter données"
+  },
+  {
     "display_name" : "Lier client",
     "name" : "link.customer",
     "description" : "Lier client"

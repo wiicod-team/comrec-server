@@ -16,7 +16,7 @@ class Offer extends Model
 
     public static $Status = ['enable', 'disable', 'upcomming'];
 
-    public static $Type = ['DUO', 'TRIO','QUATOR'];
+    public static $Type = ['DUO', 'TRIO','QUATOR', 'PREMIUM'];
 
     public function  __construct(array $attributes = [])
     {
