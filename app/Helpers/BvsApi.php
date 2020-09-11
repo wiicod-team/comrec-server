@@ -58,7 +58,12 @@ class BvsApi
                 $url = $this->addAuth($this->url);
 //                $url = 'http://admin:admin@10.10.200.26:8124/api1/x3/erp/BVSTEST/ZFACREC?representation=ZFACREC.$query';
 //                $url = 'http://admin:admin@10.10.200.26:8124/api1/x3/erp/BVSTEST/ZREAUS("000008")?representation=ZREAUS.$details';
-                $response = file_get_contents($url);
+                $ctx = stream_context_create(array('http'=>
+                    array(
+                        'timeout' => 240,  //1200 Seconds is 20 Minutes
+                    )
+                ));
+                $response = file_get_contents($url,false,$ctx);
                 $body = json_decode($response, true);
                 if (isset($body['$resources']))
                     $this->proccess_bills($body['$resources']);
@@ -82,12 +87,18 @@ class BvsApi
         $this->url = $this->base_url . $this->product_url;
         $lp = ProductUnit::latest('id')->first();
         if ($lp) {
-            $this->url = $this->url . '&key=gt.' . $lp->bvs_id;
+            $this->url = $this->url . '&key=get.' . $lp->bvs_id;
         }
         try {
             do {
                 $url = $this->addAuth($this->url);
-                $response = file_get_contents($url);
+                $ctx = stream_context_create(array('http'=>
+                    array(
+                        'timeout' => 240,  //1200 Seconds is 20 Minutes
+                    )
+                ));
+                $response = file_get_contents($url,false,$ctx);
+//                $response = file_get_contents($url);
                 $body = json_decode($response, true);
                 if (isset($body['$resources']))
                     $this->proccess_products($body['$resources']);
@@ -138,9 +149,11 @@ class BvsApi
         $c = [
             'name' => trim($cn),
             'sale_network' => trim($csn),
+            'bvs_id'=>trim($resource['BPCINV'])
+
         ];
 
-        $co = Customer::whereName($cn)->first();
+        $co = Customer::whereBvsId(trim($resource['BPCINV']))->first();
         if ($co == null) {
             $co = Customer::create($c);
         }
@@ -157,26 +170,32 @@ class BvsApi
                 $response = file_get_contents($url);
                 $body = json_decode($response, true);
 //                dump($body);
-                $al = strtolower(explode(" ", $resource['REP_REF']['$description'])[0]);
+                $al =isset($resource['REP_REF']['$description'])?
+                    strtolower(explode(" ", $resource['REP_REF']['$description'])[0])
+                     : $body['$actxLogin'];
                 if (isset($body['REPNUM_REF']['$description'])) {
                     $n = $body['REPNUM_REF']['$description'];
                     $l = empty(trim($body['LOGIN'])) ? $al : $body['LOGIN'];
                     $uid = $body['REPNUM'];
                 } else {
-                    $n = $resource['REP_REF']['$description'];
-                    $l = $al;
+                    $n = $al;
+                    $l = strtolower(explode(" ", $al)[0]);
                     $uid = $resource['REP'];
                 }
 
-                if (isset($body['REPNUM_REF'])) {
-                    $u = [
-                        'name' => trim($n),
-                        'username' => trim($l),
-                        'password' => $l,
-                        'bvs_id' => $uid,
-                    ];
+                $uo = User::whereUsername(trim($l))->first();
+                if($uo==null){
+                    if (isset($body['REPNUM_REF'])) {
+                        $u = [
+                            'name' => trim($n),
+                            'username' => trim($l),
+                            'password' => $l,
+                            'bvs_id' => $uid,
+                        ];
+                    }
+                    $uo = User::create($u);
                 }
-                $uo = User::create($u);
+
             }
 
             if (!CustomerUser::where('user_id', $uo->id)->where('customer_id', $co->id)->exists()) {

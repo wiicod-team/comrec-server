@@ -123,11 +123,6 @@
     "description" : "Consulter univers client"
   },
   {
-    "display_name" : "Lier client",
-    "name" : "link.customer",
-    "description" : "Lier client"
-  },
-  {
     "display_name" : "Consulter Tous les encaissements",
     "name" : "consult.receipt-caisse",
     "description" : "Consulter Tous les encaissements"
