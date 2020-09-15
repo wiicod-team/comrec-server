@@ -19,6 +19,7 @@
       "advance.bill",
       "cash.bill",
       "consult.bill",
+      "export.data",
 
       "add.user",
       "edit.user",
@@ -53,6 +54,7 @@
     "permissions":[
       "consult.dashboard",
       "edit.receipt",
+      "export.data",
       "consult.receipt-caisse"
     ]
   },
@@ -61,7 +63,9 @@
     "description" : "Managers BVS",
     "name" : "managers.bvs",
     "permissions":[
-      "consult.dashboard"
+      "consult.dashboard",
+      "consult.receipt-caisse",
+      "export.data"
     ]
   },
   {
@@ -91,6 +95,7 @@
       "edit.customer",
       "delete.customer",
       "consult.customer",
+      "export.data",
 
       "add.bill",
       "edit.bill",

@@ -40,6 +40,49 @@
 		"roles" : [
 			"enterprise"
 		]
+	},
+	{
+		"username" : "BVNAND01",
+		"bvs_id": 6,
+		"settings":[],
+		"has_reset_password": true,
+		"password":"password",
+		"roles" : [
+			"super.administrator",
+			"comrec.user"
+		]
+	},
+	{
+		"username" : "BVFOKO01",
+		"bvs_id": 7,
+		"settings":[],
+		"has_reset_password": false,
+		"password":"password",
+		"roles" : [
+			"super.administrator",
+			"comrec.user"
+		]
+	},
+	{
+		"username" : "BVKEMB01",
+		"bvs_id": 8,
+		"settings":[],
+		"has_reset_password": false,
+		"password":"password",
+		"roles" : [
+			"administrator",
+			"comrec.user"
+		]
+	},
+	{
+		"username" : "BVTCHO01",
+		"bvs_id": 9,
+		"settings":[],
+		"has_reset_password": false,
+		"password":"password",
+		"roles" : [
+			"administrator",
+			"comrec.user"
+		]
 	}
-
 ]
