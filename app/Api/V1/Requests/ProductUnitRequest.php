@@ -33,9 +33,14 @@ class ProductUnitRequest extends FormRequest
             'amount' => 'required|numeric',
             'quantity' => 'required|numeric',
             'unit' => 'required|max:255',
+            'bvs_id'=>'min:0|max:255|unique:bills,bvs_id',
             'product_id'=>'required|integer|exists:products,id',
 
         ];
+
+        if($this->method()=='PUT'){
+            $rules['bvs_id'].=','.$this->route('bill');
+        }
 
 
 

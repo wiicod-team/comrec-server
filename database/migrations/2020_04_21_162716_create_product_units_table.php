@@ -19,6 +19,8 @@ class CreateProductUnitsTable extends Migration
             $table->integer('quantity');
             $table->double('amount');
 
+            $table->string('bvs_id')->unique();
+
             $table->bigInteger('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 

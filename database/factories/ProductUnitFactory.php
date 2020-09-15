@@ -13,6 +13,7 @@ $factory->define(ProductUnit::class, function (Faker $faker) {
     return [
         'unit' => $pa[random_int(0,count($pa)-1)],
         'product_id'  => $p->id,
+        'bvs_id'=>$faker->uuid,
         'quantity'=>$faker->numberBetween(10,100),
         'amount'=>$faker->numberBetween(100,1000)*1000
     ];

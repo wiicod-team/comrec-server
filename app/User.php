@@ -4,14 +4,16 @@ namespace App;
 
 use App\Traits\RestTrait;
 use Hash;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Laratrust\Traits\LaratrustUserTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable,RestTrait,LaratrustUserTrait;
+    use Notifiable, RestTrait, LaratrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name','email','phone','type', 'username','bvs_id', 'password','settings','has_reset_password','status'
+        'name', 'email', 'phone', 'type', 'username', 'bvs_id', 'password', 'settings', 'has_reset_password', 'status'
     ];
 
     public static $Status = ['enable', 'disable', 'pending'];
@@ -34,15 +36,15 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
-    public $casts=[
-        'settings'=>'array',
-        'has_reset_password'=>'boolean'
+    public $casts = [
+        'settings' => 'array',
+        'has_reset_password' => 'boolean'
     ];
 
     /**
      * Automatically creates hash for the user password.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return void
      */
     public function setPasswordAttribute($value)
@@ -70,38 +72,75 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function getFullNameAttribute(){
-        if($this->name){
+    public function getFullNameAttribute()
+    {
+        if ($this->name) {
             return $this->name;
-        }else{
+        } else {
 
-                return $this->username;
+            return $this->username;
 
         }
     }
 
-    public function getLabelAttribute()
+    public function getLabel()
     {
-        return "$this->username $this->name" ;
+        return "$this->username $this->name";
     }
 
-    public function customer_users(){
+    public function customer_users()
+    {
         return $this->hasMany(CustomerUser::class);
     }
 
-     public function receipts(){
+    public function receipts()
+    {
         return $this->hasMany(Receipt::class);
     }
 
-    public function customers(){
-       return $this->belongsToMany(Customer::class,'customer_users');
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, 'customer_users');
     }
 
-    public function bills(){
-        return $this->hasManyThrough(Bill::class,Customer::class);
+    public function bills()
+    {
+        return $this->hasManyThrough(Bill::class, Customer::class);
     }
 
-    public function invoices(){
+    public function invoices()
+    {
         return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $user = Auth::user();
+
+        static::addGlobalScope('roles', function (Builder $builder) use ($user) {
+            if($user){
+                if ( $user->hasRole('comrec.user')) {
+                   /* $builder->whereHas('roles',function (Builder $query) {
+                        $query->whereName('comrec.user');
+                    });*/
+                   $builder->whereNotNull('bvs_id');
+
+                }else{
+                    /*$builder->whereDoesntHave('roles',function (Builder $query) {
+                        $query->whereName('comrec.user');
+                    });*/
+                    $builder->whereNotNull('bvs_id');
+
+                }
+            }
+
+        });
     }
 }

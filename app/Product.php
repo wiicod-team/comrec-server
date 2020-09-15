@@ -10,7 +10,7 @@ class Product extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['name','picture','bvs_id','category_id'];
+    protected $fillable = ['name','picture','category_id'];
 
     protected $dates = ['created_at','updated_at'];
 
@@ -30,7 +30,7 @@ class Product extends Model
     public function getPictureAttribute($val)
     {
         if($val==null){
-            return null;
+            return env('APP_URL').'default/product/picture.png';
         }
         return env('APP_URL').$val;
     }

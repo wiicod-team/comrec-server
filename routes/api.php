@@ -40,10 +40,7 @@ $api->version('v1', function (Router $api) {
             'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.'
         ]);
     });
-    $api->get('retrieve-bills', function() {
-        $rep = (new \App\Helpers\BvsApi())->fetch_bills();
-        return response()->json($rep);
-    });
+
 
 
     $api->group(['namespace' => 'App\Api\V1\Controllers'], function (Router $api) {
@@ -74,6 +71,9 @@ $api->version('v1', function (Router $api) {
                 $api->post('set-pin-code', 'Auth\AuthController@setPinCode');
             });
 
+            $api->resource("users", 'UserController',['only'=>['index','show','store','update']]);
+
+
             $api->group(['middleware' => ['role:comrec.user']],function(Router $api){
                 $api->resource("bills", 'BillController');
                 $api->resource("customers", 'CustomerController');
@@ -81,7 +81,6 @@ $api->version('v1', function (Router $api) {
                 $api->resource("receipts", 'ReceiptController');
                 $api->resource("permissions", 'PermissionController');
                 $api->resource("roles", 'RoleController');
-                $api->resource("users", 'UserController',['only'=>['index','show','store','update']]);
 
             });
             $api->group(['middleware' => ['role:comrec.user']],function(Router $api){
@@ -100,6 +99,14 @@ $api->version('v1', function (Router $api) {
                 $api->post("role_users", 'RoleUserController@store');
                 $api->delete("role_users/{role_id}/{user_id}", 'RoleUserController@destroy');
 
+                $api->get('retrieve-bills', function() {
+                    $rep = (new \App\Helpers\BvsApi())->fetch_bills();
+                    return response()->json($rep);
+                });
+                $api->get('retrieve-products', function() {
+                    $rep = (new \App\Helpers\BvsApi())->fetch_products();
+                    return response()->json($rep);
+                });
             });
 
 

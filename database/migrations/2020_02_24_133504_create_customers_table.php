@@ -16,6 +16,7 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('bvs_id')->unique();
             $table->integer('pending_days')->default(30);
             $table->string('email')->nullable();
             $table->string('status')->default('solvent');

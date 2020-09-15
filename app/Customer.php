@@ -10,7 +10,7 @@ class Customer extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['name', 'email', 'pending_days', 'status', 'sale_network',];
+    protected $fillable = ['name', 'email', 'pending_days', 'status', 'sale_network','bvs_id'];
 
     protected $dates = ['created_at', 'updated_at'];
 

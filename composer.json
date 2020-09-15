@@ -21,7 +21,7 @@
     "felixkiss/uniquewith-validator": "^3.1",
     "fideloper/proxy": "^4.0",
     "foris-master/mtn-mobile-money-sdk": "^1.0@dev",
-    "foris-master/orange-money-sdk": "^0.6.0",
+    "foris-master/orange-money-sdk": "^0.7.0",
     "foxxmd/laravel-elasticbeanstalk-cron": "^0.2.0",
     "guzzlehttp/guzzle": "^6.3",
     "laravel/framework": "5.8.*",

@@ -10,7 +10,7 @@ class ProductUnit extends Model
     //
     use RestTrait;
 
-    protected $fillable = ['unit','quantity','amount','product_id'];
+    protected $fillable = ['unit','quantity','bvs_id','amount','product_id'];
 
     protected $dates = ['created_at','updated_at'];
 
