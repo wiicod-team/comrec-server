@@ -25,7 +25,7 @@
       "edit.user",
       "delete.user",
       "consult.user",
-      "active.user",
+      "active.account",
 
       "add.role",
       "edit.role",
