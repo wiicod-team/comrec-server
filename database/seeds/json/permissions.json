@@ -113,11 +113,6 @@
     "description" : "Reinitialiser mot de passe"
   },
   {
-    "display_name" : "Lier client",
-    "name" : "link.customer",
-    "description" : "Lier client"
-  },
-  {
     "display_name" : "Consulter univers client",
     "name" : "consult.customer-universe",
     "description" : "Consulter univers client"

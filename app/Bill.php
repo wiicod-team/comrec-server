@@ -14,7 +14,7 @@ class Bill extends Model
 
     protected $dates = ['created_at','updated_at','creation_date'];
 
-    public static $Status = ['new', 'paid', 'pending', 'cancel'];
+    public static $Status = ['new', 'paid', 'pending', 'cancel','remain'];
 
     public function getLabel()
     {

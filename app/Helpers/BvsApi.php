@@ -29,7 +29,8 @@ class BvsApi
     private $url;
     private $nb = 0;
     private $auth = 0;
-    private $bill_url = 'ZFACREC?representation=ZFACREC.$query&orderBy=NUM';
+    private $bill_url = 'ZFACREC?representation=ZFACREC.$query&orderBy=NUM&count=5000';
+    private $sync_bill_url = 'ZFACRECOU2?representation=ZFACRECOU2.$query&orderBy=NUM&count=5000';
     private $product_url = 'ZSTKAPP?representation=ZSTKAPP.$query&orderBy=NUM';
     private $user_url = 'ZREAUS("bvs_id")?representation=ZREAUS.$details';
 
@@ -49,10 +50,10 @@ class BvsApi
     public function fetch_bills()
     {
         $this->url = $this->base_url . $this->bill_url;
-        $lb = Bill::latest('id')->first();
+       /* $lb = Bill::latest('id')->first();
         if ($lb) {
             $this->url = $this->url . '&key=gt.' . $lb->bvs_id;
-        }
+        }*/
         try {
             do {
                 $url = $this->addAuth($this->url);
@@ -80,6 +81,40 @@ class BvsApi
         }
 
         return ['number_fetch' => $this->nb, 'success' => true, 'msg' => "$this->nb invoices fetchs"];
+    }
+
+
+    public function fetch_sync_bills()
+    {
+        $this->url = $this->base_url . $this->sync_bill_url;
+        try {
+            do {
+                $url = $this->addAuth($this->url);
+//                $url = 'http://admin:admin@10.10.200.26:8124/api1/x3/erp/BVSTEST/ZFACREC?representation=ZFACREC.$query';
+//                $url = 'http://admin:admin@10.10.200.26:8124/api1/x3/erp/BVSTEST/ZREAUS("000008")?representation=ZREAUS.$details';
+                $ctx = stream_context_create(array('http'=>
+                    array(
+                        'timeout' => 240,  //1200 Seconds is 20 Minutes
+                    )
+                ));
+                $response = file_get_contents($url,false,$ctx);
+                $body = json_decode($response, true);
+                if (isset($body['$resources']))
+                    $this->sync_bills($body['$resources']);
+                if (isset($body['$links']['$next']))
+                    $this->url = $body['$links']['$next']['$url'];
+
+            } while (isset($body['$links']['$next']));
+
+            Log::info("$this->nb invoices syncs");
+        } catch (Exception $exception) {
+            dump($exception->getMessage());
+            Log::warning("invoices fetchs failled error: " . $exception->getMessage());
+            return ['number_fetch' => $this->nb, 'success' => false, 'msg' => "invoices fetchs failled"];
+        }
+
+        return ['number_fetch' => $this->nb, 'success' => true, 'msg' => "$this->nb invoices fetchs"];
+
     }
 
     public function fetch_products()
@@ -132,6 +167,14 @@ class BvsApi
         }
     }
 
+    private function sync_bills($resources)
+    {
+        foreach ($resources as $resource) {
+            $this->sync_bill($resource);
+            $this->nb++;
+        }
+    }
+
     private function proccess_products($resources)
     {
         foreach ($resources as $resource) {
@@ -172,7 +215,7 @@ class BvsApi
 //                dump($body);
                 $al =isset($resource['REP_REF']['$description'])?
                     strtolower(explode(" ", $resource['REP_REF']['$description'])[0])
-                     : $body['$actxLogin'];
+                    : $body['$actxLogin'];
                 if (isset($body['REPNUM_REF']['$description'])) {
                     $n = $body['REPNUM_REF']['$description'];
                     $l = empty(trim($body['LOGIN'])) ? $al : $body['LOGIN'];
@@ -297,5 +340,22 @@ class BvsApi
         }
 
     }
+
+    private function sync_bill($resource)
+    {
+        if(isset($resource["NUM"])&& Bill::whereBvsId($resource["NUM"])->exists()){
+            $b = Bill::whereBvsId($resource["NUM"])->first();
+            $a= $resource["MONTANT1"]-$resource["MONTANT2"];
+            $b->amount = $a;
+            if($a==0){
+                $b->status= 'paid';
+            }elseif ($a<0){
+                $b->status='remain';
+            }
+            $b->save();
+
+        }
+    }
+
 
 }
