@@ -45,6 +45,8 @@ class UserRequest extends FormRequest
         $rules = [
             'username'=>'required|min:0|max:255|unique:users,username',
             'name'=>'min:0|max:255',
+            'network'=>'min:1|max:255',
+            'entity'=>'min:1|max:255',
             'phone'=>'min:9|max:14',
             'email'=>'email|max:255',
             'type' => Rule::in(User::$Type),

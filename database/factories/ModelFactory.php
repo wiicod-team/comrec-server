@@ -20,6 +20,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
+        'entity' => $faker->name,
+        'network' => $faker->name,
         'phone'=>$faker->phoneNumber,
         'email'=>$faker->email,
         'username' => $faker->userName,

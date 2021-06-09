@@ -29,8 +29,8 @@ class BvsApi
     private $url;
     private $nb = 0;
     private $auth = 0;
-    private $bill_url = 'ZFACREC?representation=ZFACREC.$query&orderBy=NUM&count=5000';
-    private $sync_bill_url = 'ZFACRECOU2?representation=ZFACRECOU2.$query&orderBy=NUM&count=5000';
+    private $bill_url = 'ZFACREC?representation=ZFACREC.$query&orderBy=NUM&count=200';
+    private $sync_bill_url = 'ZFACRECOU2?representation=ZFACRECOU2.$query&orderBy=NUM&count=200';
     private $product_url = 'ZSTKAPP?representation=ZSTKAPP.$query&orderBy=NUM';
     private $user_url = 'ZREAUS("bvs_id")?representation=ZREAUS.$details';
 

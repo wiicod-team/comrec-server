@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->boolean('has_reset_password')->default(false);
             $table->string('bvs_id')->unique()->nullable();
+            $table->string('entity')->nullable();
+            $table->string('network')->nullable();
             $table->string('settings');
             $table->string('password');
             $table->rememberToken();
